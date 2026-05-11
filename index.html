@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mahendra · Portfolio Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<!-- Load snapshot data (Mahendra regenerates this file on every run) -->
+<script src="data.js"></script>
+<style>
+  :root {
+    --navy: #0E1B2C;
+    --navy-soft: #1a2c44;
+    --gold: #C9A659;
+    --bone: #E9DFC7;
+    --muted: #8A9AB2;
+    --grid: #D8DCE2;
+    --bg: #FFFFFF;
+    --good: #2E7D4F;
+    --bad: #B3332A;
+    --amber: #C9801F;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--navy); font-family: 'Inter', system-ui, sans-serif; font-feature-settings: "tnum"; }
+
+  header {
+    background: var(--navy); color: #fff; padding: 18px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 3px solid var(--gold);
+  }
+  header .brand { font-family: 'Playfair Display', serif; font-size: 22px; letter-spacing: 0.5px; }
+  header .brand span { color: var(--gold); }
+  header .right { display: flex; align-items: center; gap: 16px; }
+  header .meta { color: var(--bone); font-size: 13px; }
+  .live-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+  .live-badge.live { background: rgba(46,125,79,0.2); color: #5CDB7E; }
+  .live-badge.snapshot { background: rgba(201,128,31,0.2); color: #F3B74D; }
+  .live-badge.fetching { background: rgba(138,154,178,0.2); color: #8A9AB2; }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; }
+  .live .pulse { background: #5CDB7E; animation: pulse 2s infinite; }
+  .snapshot .pulse { background: #F3B74D; }
+  .fetching .pulse { background: #8A9AB2; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .refresh-btn { background: var(--gold); color: var(--navy); border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: Inter, sans-serif; }
+  .refresh-btn:hover { filter: brightness(1.1); }
+  .refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  main { max-width: 1400px; margin: 0 auto; padding: 28px 32px 48px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 28px; }
+  .kpi { background: #fff; border: 1px solid var(--grid); border-left: 4px solid var(--gold); padding: 14px 18px; transition: all 0.3s; }
+  .kpi .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .kpi .value { font-family: 'Playfair Display', serif; font-size: 28px; margin-top: 4px; color: var(--navy); transition: color 0.3s; }
+  .kpi .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .kpi.good .value { color: var(--good); }
+  .kpi.bad .value { color: var(--bad); }
+
+  .row { display: grid; gap: 24px; margin-bottom: 28px; }
+  .row.two { grid-template-columns: 1fr 1fr; }
+  .panel { background: #fff; border: 1px solid var(--grid); padding: 20px; }
+  .panel h2 { margin: 0 0 14px; font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); border-bottom: 1px solid var(--grid); padding-bottom: 8px; }
+
+  .chart-wrap { position: relative; height: 280px; }
+  .perf-wrap { position: relative; height: 320px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--grid); }
+  th { background: var(--bone); color: var(--navy); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr:hover td { background: #FAF7EE; }
+  th.sortable { cursor: pointer; user-select: none; transition: background 0.15s; }
+  th.sortable:hover { background: #DDD3BB; }
+  th.sortable .arrow { display: inline-block; margin-left: 4px; color: var(--muted); font-size: 9px; transform: translateY(-1px); }
+  th.sortable.active { background: var(--gold); color: var(--navy); }
+  th.sortable.active .arrow { color: var(--navy); }
+  .pnl-pos { color: var(--good); font-weight: 600; }
+  .pnl-neg { color: var(--bad); font-weight: 600; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; background: var(--bone); color: var(--navy); font-size: 11px; font-weight: 500; }
+  .flash { animation: flashGreen 0.8s; }
+  @keyframes flashGreen { 0%{background:#d4edda} 100%{background:transparent} }
+
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty h3 { font-family: 'Playfair Display', serif; color: var(--navy); margin-bottom: 8px; }
+
+  footer { max-width: 1400px; margin: 0 auto; padding: 0 32px 32px; color: var(--muted); font-size: 11px; display: flex; justify-content: space-between; }
+  footer .gold { color: var(--gold); }
+
+  .totals-row td { font-weight: 700; background: var(--bone) !important; border-top: 2px solid var(--navy); }
+
+  /* Recommendations panels */
+  .wk-banner { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%); color: #fff; padding: 14px 20px; border-left: 4px solid var(--gold); margin-bottom: 16px; }
+  .wk-banner .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
+  .wk-banner .headline { font-family: 'Playfair Display', serif; font-size: 18px; margin: 4px 0 6px; }
+  .wk-banner ul { margin: 6px 0 0; padding-left: 18px; color: var(--bone); font-size: 12px; line-height: 1.6; }
+
+  .cycle-strip { display: flex; gap: 4px; margin-bottom: 20px; }
+  .cycle-cell { flex: 1; padding: 8px 6px; background: #F3F1EB; border: 1px solid var(--grid); font-size: 10px; text-align: center; position: relative; }
+  .cycle-cell.past { background: #ECECEE; color: var(--muted); }
+  .cycle-cell.current { background: var(--gold); color: var(--navy); font-weight: 700; border-color: var(--navy); transform: scale(1.05); z-index: 1; }
+  .cycle-cell.upcoming { background: #FFF; }
+  .cycle-cell .num { font-family: 'Playfair Display', serif; font-size: 18px; display: block; font-weight: 700; }
+  .cycle-cell .dates { font-size: 9px; color: var(--muted); }
+  .cycle-cell.current .dates { color: var(--navy); }
+  .cycle-cell .tip { display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 11px; width: 240px; z-index: 10; white-space: normal; text-align: left; }
+  .cycle-cell:hover .tip { display: block; }
+
+  .rec-week { background: #fff; border: 1px solid var(--grid); border-left: 4px solid var(--gold); padding: 14px 18px; margin-bottom: 14px; }
+  .rec-week h3 { margin: 0 0 10px; font-family: 'Playfair Display', serif; font-size: 15px; color: var(--navy); }
+  .rec-week .wk-meta { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 8px; }
+  .rec-week table { font-size: 12px; }
+  .rec-week th { background: transparent; padding: 4px 8px; font-size: 10px; }
+  .rec-week td { padding: 5px 8px; }
+  .action-pill { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+  .action-OPEN { background: #d4edda; color: #1e6b3a; }
+  .action-ADD { background: #cce3ff; color: #1a4788; }
+  .action-TRIM { background: #fff1cc; color: #8a6d11; }
+  .action-CLOSE { background: #f8d7da; color: #7a2630; }
+  .action-HOLD, .action-WATCH, .action-CHECK, .action-PLAN { background: #e9ecef; color: #495057; }
+  .cond-marker { color: var(--amber); font-weight: 700; font-size: 10px; margin-left: 4px; }
+
+  /* ── Mobile / tablet ── */
+  @media (max-width: 900px) {
+    header { padding: 12px 16px; flex-wrap: wrap; row-gap: 10px; }
+    header .brand { font-size: 18px; }
+    header .right { gap: 10px; flex-wrap: wrap; }
+    header .meta { font-size: 11px; }
+    main { padding: 18px 14px 28px; }
+    footer { padding: 0 14px 24px; flex-direction: column; gap: 6px; align-items: flex-start; }
+
+    .kpis { grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .kpi { padding: 10px 12px; border-left-width: 3px; }
+    .kpi .label { font-size: 10px; }
+    .kpi .value { font-size: 22px; }
+    .kpi .sub { font-size: 11px; }
+
+    .row { gap: 16px; margin-bottom: 20px; }
+    .row.two { grid-template-columns: 1fr; }
+    .panel { padding: 14px; }
+    .panel h2 { font-size: 16px; margin-bottom: 10px; }
+    .chart-wrap { height: 240px; }
+    .perf-wrap { height: 280px; }
+
+    /* Tables: horizontal scroll inside their host divs */
+    #postable, .rec-week { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    #postable table, .rec-week table { min-width: 760px; font-size: 12px; }
+    #postable th, #postable td, .rec-week th, .rec-week td { padding: 6px 8px; }
+
+    #btstats { gap: 12px; font-size: 11px; }
+
+    .cycle-strip { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+    .cycle-cell { flex: 0 0 96px; }
+    .cycle-cell.current { transform: none; }
+    .cycle-cell .tip { display: none !important; }
+
+    .wk-banner { padding: 12px 14px; }
+    .wk-banner .headline { font-size: 16px; }
+    .wk-banner ul { font-size: 11px; }
+  }
+
+  /* ── Phones ── */
+  @media (max-width: 560px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi .value { font-size: 20px; }
+    .kpi .label { font-size: 9px; letter-spacing: 0.5px; }
+    header .right { width: 100%; justify-content: space-between; }
+    header .brand { font-size: 16px; }
+    .refresh-btn { padding: 5px 10px; font-size: 11px; }
+    .cycle-cell { flex: 0 0 86px; padding: 6px 4px; }
+    .cycle-cell .num { font-size: 16px; }
+    .panel h2 { font-size: 15px; }
+    .chart-wrap { height: 220px; }
+    .perf-wrap { height: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">MAHENDRA <span>·</span> Theoretical Portfolio</div>
+  <div class="right">
+    <div id="livebadge" class="live-badge fetching"><div class="pulse"></div><span>LOADING</span></div>
+    <button class="refresh-btn" id="refreshBtn" onclick="fetchLivePrices()">Refresh Prices</button>
+    <div class="meta">As of <span id="asof">—</span></div>
+  </div>
+</header>
+
+<main>
+  <section class="kpis">
+    <div class="kpi" id="nav-kpi"><div class="label">Portfolio value</div><div class="value" id="nav">—</div><div class="sub" id="navsub"></div></div>
+    <div class="kpi"><div class="label">Cash</div><div class="value" id="cash">—</div><div class="sub" id="cashsub"></div></div>
+    <div class="kpi" id="sinc-kpi"><div class="label">Since inception</div><div class="value" id="sinc">—</div><div class="sub" id="sincsub"></div></div>
+    <div class="kpi" id="week-kpi"><div class="label">This week</div><div class="value" id="week">—</div><div class="sub" id="weeksub">1W change</div></div>
+    <div class="kpi" id="sharpe-kpi"><div class="label">Sharpe (ann.)</div><div class="value" id="sharpe">—</div><div class="sub" id="sharpesub">vs 4.5% RF</div></div>
+    <div class="kpi"><div class="label">Positions</div><div class="value" id="poscount">—</div><div class="sub" id="posub"></div></div>
+  </section>
+
+  <section class="row">
+    <div class="panel">
+      <h2>NAV over time — backtest <span style="font-weight: 400; font-size: 12px; color: var(--muted); font-family: Inter;" id="btrange"></span></h2>
+      <div id="btstats" style="display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12px;"></div>
+      <div class="perf-wrap"><canvas id="perfChart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="row two">
+    <div class="panel">
+      <h2>Sector breakdown</h2>
+      <div class="chart-wrap"><canvas id="sectorChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <h2>Geography breakdown</h2>
+      <div class="chart-wrap"><canvas id="geoChart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="row">
+    <div class="panel">
+      <h2 id="posHeader">Open positions</h2>
+      <div id="postable"></div>
+    </div>
+  </section>
+
+  <section class="row">
+    <div class="panel">
+      <h2>Latest weekly · <span id="wkDate" style="font-weight:400;font-size:12px;color:var(--muted);font-family:Inter;"></span></h2>
+      <div id="weeklyBanner"></div>
+    </div>
+  </section>
+
+  <section class="row">
+    <div class="panel">
+      <h2>Book cycle calendar · 2026</h2>
+      <div id="cycleStrip" class="cycle-strip"></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:-6px;">Hover a cycle for action guidance. Gold = current.</div>
+    </div>
+  </section>
+
+  <section class="row">
+    <div class="panel">
+      <h2>Recommended trades — next 30 days</h2>
+      <div id="recPanels"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>Mahendra · Theoretical portfolio tracking · Paper only · Auto-refresh 60s</div>
+  <div><span class="gold">&#9679;</span> Inception <span id="inc">—</span> · Start NAV <span id="startnav">—</span></div>
+</footer>
+
+<script>
+(function () {
+  // ─── GLOBALS ──────────────────────────────────────
+  const M = window.__MAHENDRA__;
+  if (!M) { document.body.innerHTML = '<div class="empty" style="padding:80px"><h3>No data</h3><p>data.js missing. Run <code>/mahendra dashboard</code> to regenerate.</p></div>'; return; }
+
+  let portfolio = JSON.parse(JSON.stringify(M.portfolio)); // deep copy
+  const snaps = (M.snapshots || []).slice().sort((a,b) => a.date.localeCompare(b.date));
+  let liveMode = false;
+  let autoRefreshTimer = null;
+
+  // ─── FORMATTERS ───────────────────────────────────
+  const fmtUsd = n => '$' + (n ?? 0).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+  const fmtUsdD = n => '$' + (n ?? 0).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const fmtPct = n => (n >= 0 ? '+' : '') + (n ?? 0).toFixed(2) + '%';
+
+  // ─── SHARPE RATIO ─────────────────────────────────
+  // Annualised Sharpe = (mean_daily_return * 252 - RF) / (stdev_daily_return * sqrt(252))
+  // Snapshots are sparse (trading-day cadence) so each consecutive pair is treated as one trading day.
+  const RISK_FREE_ANNUAL = 0.045; // 4.5% US T-bill proxy
+  function computeSharpe(series, valueKey) {
+    if (!series || series.length < 3) return null;
+    const sorted = series.slice().sort((a, b) => a.date.localeCompare(b.date));
+    const rets = [];
+    for (let i = 1; i < sorted.length; i++) {
+      const prev = sorted[i - 1][valueKey];
+      const curr = sorted[i][valueKey];
+      if (prev > 0 && isFinite(curr)) rets.push((curr / prev) - 1);
+    }
+    if (rets.length < 2) return null;
+    const mean = rets.reduce((a, b) => a + b, 0) / rets.length;
+    const variance = rets.reduce((a, b) => a + (b - mean) * (b - mean), 0) / (rets.length - 1);
+    const stdev = Math.sqrt(variance);
+    if (stdev === 0) return null;
+    const annRet = mean * 252;
+    const annStd = stdev * Math.sqrt(252);
+    return (annRet - RISK_FREE_ANNUAL) / annStd;
+  }
+
+  // ─── BADGE ────────────────────────────────────────
+  function setBadge(mode, text) {
+    const b = document.getElementById('livebadge');
+    b.className = 'live-badge ' + mode;
+    b.querySelector('span').textContent = text;
+  }
+
+  // ─── RECOMPUTE DERIVED FIELDS ─────────────────────
+  function recompute(p) {
+    let totalMV = p.cash_usd;
+    const sectorMap = {}, geoMap = {};
+    for (const pos of p.positions) {
+      pos.market_value_usd = pos.shares * pos.last_price_usd;
+      pos.pnl_usd = (pos.last_price_usd - pos.entry_price_usd) * pos.shares;
+      pos.pnl_pct = pos.entry_price_usd > 0 ? ((pos.last_price_usd / pos.entry_price_usd) - 1) * 100 : 0;
+      totalMV += pos.market_value_usd;
+    }
+    for (const pos of p.positions) {
+      pos.weight_pct = totalMV > 0 ? (pos.market_value_usd / totalMV) * 100 : 0;
+      sectorMap[pos.sector] = (sectorMap[pos.sector] || 0) + pos.weight_pct;
+      geoMap[pos.geography] = (geoMap[pos.geography] || 0) + pos.weight_pct;
+    }
+    const cashPct = totalMV > 0 ? (p.cash_usd / totalMV) * 100 : 100;
+    sectorMap['Cash'] = cashPct;
+    geoMap['Cash'] = cashPct;
+    p.totals = {
+      market_value_usd: totalMV,
+      return_since_inception_pct: ((totalMV / p.inception_value_usd) - 1) * 100,
+      return_week_pct: p.totals.return_week_pct || 0, // can't compute without prior snapshot
+      sector_breakdown: sectorMap,
+      geography_breakdown: geoMap,
+      cash_pct: cashPct
+    };
+    return p;
+  }
+
+  // ─── RENDER KPIs ──────────────────────────────────
+  function renderKPIs(p) {
+    const nav = p.totals.market_value_usd;
+    const iv = p.inception_value_usd;
+    document.getElementById('nav').textContent = fmtUsd(nav);
+    document.getElementById('navsub').textContent = 'vs ' + fmtUsd(iv) + ' start';
+    document.getElementById('cash').textContent = fmtUsd(p.cash_usd);
+    document.getElementById('cashsub').textContent = (p.totals.cash_pct ?? 0).toFixed(1) + '% of NAV';
+
+    const sinc = p.totals.return_since_inception_pct ?? 0;
+    document.getElementById('sinc').textContent = fmtPct(sinc);
+    const sincKpi = document.getElementById('sinc-kpi');
+    sincKpi.classList.remove('good','bad');
+    sincKpi.classList.add(sinc >= 0 ? 'good' : 'bad');
+    const pnlTotal = nav - iv;
+    document.getElementById('sincsub').textContent = (pnlTotal >= 0 ? '+' : '') + fmtUsd(pnlTotal);
+
+    const navKpi = document.getElementById('nav-kpi');
+    navKpi.classList.remove('good','bad');
+    if (sinc > 0) navKpi.classList.add('good');
+    if (sinc < 0) navKpi.classList.add('bad');
+
+    const wk = p.totals.return_week_pct ?? 0;
+    document.getElementById('week').textContent = fmtPct(wk);
+    const wkKpi = document.getElementById('week-kpi');
+    wkKpi.classList.remove('good','bad');
+    wkKpi.classList.add(wk >= 0 ? 'good' : 'bad');
+
+    document.getElementById('poscount').textContent = (p.positions || []).length;
+    document.getElementById('posub').textContent = 'across ' + new Set((p.positions || []).map(x => x.sector)).size + ' sectors';
+
+    // Sharpe (Mahendra paper portfolio, daily snapshots since inception)
+    const mSharpe = computeSharpe(snaps, 'market_value_usd');
+    const sharpeEl = document.getElementById('sharpe');
+    const sharpeKpi = document.getElementById('sharpe-kpi');
+    sharpeKpi.classList.remove('good', 'bad');
+    if (mSharpe === null) {
+      sharpeEl.textContent = '—';
+      document.getElementById('sharpesub').textContent = 'need 3+ snapshots';
+    } else {
+      sharpeEl.textContent = (mSharpe >= 0 ? '+' : '') + mSharpe.toFixed(2);
+      sharpeKpi.classList.add(mSharpe >= 0 ? 'good' : 'bad');
+      const bSharpe = computeSharpe(M.bnh_path, 'nav_bnh');
+      const subParts = ['vs 4.5% RF'];
+      if (bSharpe !== null) subParts.push('B&H ' + bSharpe.toFixed(2));
+      document.getElementById('sharpesub').innerHTML = subParts.join(' · ');
+    }
+    document.getElementById('inc').textContent = p.inception_date;
+    document.getElementById('startnav').textContent = fmtUsd(iv);
+    document.getElementById('asof').textContent = new Date(p.last_refresh || p.inception_date).toLocaleString('en-GB', {dateStyle:'medium', timeStyle:'short'});
+  }
+
+  // ─── RENDER TABLE (sortable) ──────────────────────
+  // Column metadata: key (sort id), label, numeric flag, getter (sort value), formatter (cell HTML).
+  const TABLE_COLS = [
+    { key: 'ticker',          label: 'Ticker',     num: false, get: r => r.ticker || '',                     cell: r => '<td><b>' + r.ticker + '</b></td>' },
+    { key: 'name',            label: 'Name',       num: false, get: r => r.name || '',                       cell: r => '<td>' + (r.name || '') + '</td>' },
+    { key: 'sector',          label: 'Sector',     num: false, get: r => r.sector || '',                     cell: r => '<td><span class="tag">' + (r.sector || '') + '</span></td>' },
+    { key: 'geography',       label: 'Geo',        num: false, get: r => r.geography || '',                  cell: r => '<td><span class="tag">' + (r.geography || '') + '</span></td>' },
+    { key: 'shares',          label: 'Shares',     num: true,  get: r => r.shares || 0,                      cell: r => '<td class="num">' + (r.shares||0).toLocaleString('en-US',{maximumFractionDigits:1}) + '</td>' },
+    { key: 'entry_price_usd', label: 'Entry',      num: true,  get: r => r.entry_price_usd || 0,             cell: r => '<td class="num">' + fmtUsdD(r.entry_price_usd) + '</td>' },
+    { key: 'last_price_usd',  label: 'Last',       num: true,  get: r => r.last_price_usd || 0,              cell: r => '<td class="num" id="price-' + r.ticker + '">' + fmtUsdD(r.last_price_usd) + '</td>' },
+    { key: 'market_value_usd',label: 'Mkt Value',  num: true,  get: r => r.market_value_usd || 0,            cell: r => '<td class="num">' + fmtUsd(r.market_value_usd) + '</td>' },
+    { key: 'weight_pct',      label: 'Wt %',       num: true,  get: r => r.weight_pct || 0,                  cell: r => '<td class="num">' + (r.weight_pct??0).toFixed(1) + '%</td>' },
+    { key: 'pnl_usd',         label: 'P&L $',      num: true,  get: r => r.pnl_usd || 0,                     cell: r => { const c = (r.pnl_pct ?? 0) >= 0 ? 'pnl-pos' : 'pnl-neg'; return '<td class="num ' + c + '">' + (r.pnl_usd >= 0 ? '+' : '') + fmtUsd(r.pnl_usd) + '</td>'; } },
+    { key: 'pnl_pct',         label: 'P&L %',      num: true,  get: r => r.pnl_pct || 0,                     cell: r => { const c = (r.pnl_pct ?? 0) >= 0 ? 'pnl-pos' : 'pnl-neg'; return '<td class="num ' + c + '">' + fmtPct(r.pnl_pct) + '</td>'; } }
+  ];
+
+  let sortKey = 'weight_pct';
+  let sortDir = 'desc';
+
+  function sortRows(rows) {
+    const col = TABLE_COLS.find(c => c.key === sortKey) || TABLE_COLS.find(c => c.key === 'weight_pct');
+    const dirMul = sortDir === 'asc' ? 1 : -1;
+    return rows.slice().sort((a, b) => {
+      const va = col.get(a), vb = col.get(b);
+      if (col.num) return ((va || 0) - (vb || 0)) * dirMul;
+      return String(va).localeCompare(String(vb)) * dirMul;
+    });
+  }
+
+  function renderTable(p) {
+    const el = document.getElementById('postable');
+    if (!p.positions || p.positions.length === 0) {
+      el.innerHTML = '<div class="empty"><h3>No positions yet</h3><p>Run <code>/mahendra</code> to generate the first week of trades.</p></div>';
+      return;
+    }
+    const rows = sortRows(p.positions);
+    let totalMV = 0, totalPNL = 0, totalEntry = 0;
+    for (const r of rows) { totalMV += r.market_value_usd; totalPNL += r.pnl_usd; totalEntry += r.entry_price_usd * r.shares; }
+
+    // Header row
+    let html = '<table><thead><tr>';
+    for (const col of TABLE_COLS) {
+      const active = col.key === sortKey;
+      const arrow = active ? (sortDir === 'asc' ? '▲' : '▼') : '↕';
+      const cls = 'sortable' + (col.num ? ' num' : '') + (active ? ' active' : '');
+      html += '<th class="' + cls + '" data-sortkey="' + col.key + '" title="Sort by ' + col.label.replace(/&L/, 'L') + '">' + col.label + ' <span class="arrow">' + arrow + '</span></th>';
+    }
+    html += '</tr></thead><tbody>';
+
+    // Body rows
+    for (const r of rows) {
+      html += '<tr id="row-' + r.ticker + '">';
+      for (const col of TABLE_COLS) html += col.cell(r);
+      html += '</tr>';
+    }
+
+    // Totals row (always pinned bottom; not affected by sort)
+    const totalPctReturn = totalEntry > 0 ? ((totalMV / totalEntry) - 1) * 100 : 0;
+    const totCls = totalPNL >= 0 ? 'pnl-pos' : 'pnl-neg';
+    html += '<tr class="totals-row">';
+    html += '<td colspan="4"><b>TOTAL (excl. cash)</b></td>';
+    html += '<td></td><td></td><td></td>';
+    html += '<td class="num">' + fmtUsd(totalMV) + '</td>';
+    html += '<td class="num">' + (p.totals.market_value_usd > 0 ? (totalMV / p.totals.market_value_usd * 100).toFixed(1) : 0) + '%</td>';
+    html += '<td class="num ' + totCls + '">' + (totalPNL >= 0 ? '+' : '') + fmtUsd(totalPNL) + '</td>';
+    html += '<td class="num ' + totCls + '">' + fmtPct(totalPctReturn) + '</td>';
+    html += '</tr>';
+    html += '</tbody></table>';
+    el.innerHTML = html;
+
+    // Wire header clicks
+    el.querySelectorAll('th.sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        const k = th.dataset.sortkey;
+        if (k === sortKey) {
+          sortDir = (sortDir === 'asc' ? 'desc' : 'asc');
+        } else {
+          sortKey = k;
+          // Default direction: desc for numeric (biggest first), asc for text (A-Z)
+          const col = TABLE_COLS.find(c => c.key === k);
+          sortDir = col && col.num ? 'desc' : 'asc';
+        }
+        renderTable(portfolio);
+      });
+    });
+  }
+
+  // ─── CHARTS ───────────────────────────────────────
+  let sectorChartObj = null, geoChartObj = null, perfChartObj = null;
+  const palette = ['#C9A659','#0E1B2C','#8A9AB2','#E9DFC7','#2E7D4F','#B3332A','#C9801F','#556B8D','#4A3E2A','#7A5F31','#A8B4C4','#3F5771'];
+
+  function renderDonut(canvasId, dict, existing) {
+    const labels = Object.keys(dict || {});
+    const values = labels.map(k => dict[k]);
+    const ctx = document.getElementById(canvasId);
+    if (labels.length === 0) { ctx.parentElement.innerHTML = '<div class="empty"><p>Build positions to see breakdown.</p></div>'; return null; }
+    if (existing) { existing.data.labels = labels; existing.data.datasets[0].data = values; existing.update(); return existing; }
+    return new Chart(ctx, {
+      type: 'doughnut',
+      data: { labels, datasets: [{ data: values, backgroundColor: palette, borderColor: '#fff', borderWidth: 2 }] },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '62%',
+        plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 12 } } },
+          tooltip: { callbacks: { label: c => c.label + ': ' + c.parsed.toFixed(1) + '%' } } } }
+    });
+  }
+
+  function renderPerf() {
+    const ctx = document.getElementById('perfChart');
+    if (snaps.length === 0) { ctx.parentElement.innerHTML = '<div class="empty"><p>No snapshot history yet.</p></div>'; return; }
+    Chart.defaults.font.family = 'Inter';
+    Chart.defaults.color = '#0E1B2C';
+
+    const bnhByDate = {};
+    if (M.bnh_path) for (const r of M.bnh_path) bnhByDate[r.date] = r.nav_bnh;
+    const msciByDate = {};
+    if (M.msci_world_path) for (const r of M.msci_world_path) msciByDate[r.date] = r.nav;
+    const labels = snaps.map(s => s.date);
+    const bnhSeries = labels.map(d => bnhByDate[d] || null);
+    const msciSeries = labels.map(d => msciByDate[d] || null);
+
+    // Phase background plugin — fills cycle regions with light tints
+    const phases = M.phases || [];
+    const phasePlugin = {
+      id: 'phaseShade',
+      beforeDatasetsDraw(chart) {
+        const {ctx: c, chartArea, scales} = chart;
+        const colors = ['rgba(46,125,79,0.06)', 'rgba(201,128,31,0.08)', 'rgba(46,125,79,0.06)'];
+        phases.forEach((ph, i) => {
+          const x1 = scales.x.getPixelForValue(ph.from);
+          const x2 = scales.x.getPixelForValue(ph.to);
+          if (isFinite(x1) && isFinite(x2)) {
+            c.save();
+            c.fillStyle = colors[i % colors.length];
+            c.fillRect(x1, chartArea.top, x2 - x1, chartArea.bottom - chartArea.top);
+            c.restore();
+          }
+        });
+      }
+    };
+
+    const datasets = [{
+      label: 'Mahendra NAV (cycle-timed)', data: snaps.map(s => s.market_value_usd),
+      borderColor: '#0E1B2C', backgroundColor: 'rgba(14,27,44,0.08)', fill: true, tension: 0.2,
+      pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: '#C9A659', borderWidth: 2.5
+    }];
+    if (M.bnh_path) {
+      datasets.push({
+        label: 'Buy-and-hold (same 28 names)', data: bnhSeries,
+        borderColor: '#C9A659', backgroundColor: 'transparent', fill: false, tension: 0.2,
+        pointRadius: 0, pointHoverRadius: 4, borderWidth: 2, borderDash: [6, 4]
+      });
+    }
+    if (M.msci_world_path) {
+      datasets.push({
+        label: 'MSCI World (URTH)', data: msciSeries,
+        borderColor: '#8A9AB2', backgroundColor: 'transparent', fill: false, tension: 0.2,
+        pointRadius: 0, pointHoverRadius: 4, borderWidth: 2, borderDash: [2, 3]
+      });
+    }
+
+    perfChartObj = new Chart(ctx, {
+      type: 'line',
+      data: { labels, datasets },
+      options: { responsive: true, maintainAspectRatio: false,
+        interaction: { intersect: false, mode: 'index' },
+        plugins: {
+          legend: { display: true, position: 'top', align: 'end', labels: { boxWidth: 18, font: { size: 11 }, usePointStyle: false } },
+          tooltip: { callbacks: { label: c => c.dataset.label + ': $' + (c.parsed.y||0).toLocaleString('en-US',{maximumFractionDigits:0}) } }
+        },
+        scales: { x: { grid: { color: '#eee' }, ticks: { maxTicksLimit: 12 } }, y: { grid: { color: '#eee' }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'k' } } }
+      },
+      plugins: [phasePlugin]
+    });
+  }
+
+  // ─── LIVE PRICE FETCH ─────────────────────────────
+  // Try local proxy first (works when serve-dashboard.ps1 is running), then Yahoo direct,
+  // then a chain of public CORS proxies (same pattern as Future Billionaires Club). The chain
+  // is what makes the Refresh button work from a static-hosted page (GitHub Pages, etc.)
+  // where direct Yahoo is CORS-blocked.
+  const PROXY_CHAIN = [
+    u => u,                                                                  // direct (CORS may still allow it on desktop)
+    u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+    u => 'https://corsproxy.io/?' + encodeURIComponent(u),
+    u => 'https://api.cors.lol/?url=' + encodeURIComponent(u),
+    u => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u),
+  ];
+
+  async function fetchOnePrice(ticker) {
+    const yahoo = 'https://query1.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d&range=1d';
+    // Local Pages Function / serve-dashboard.ps1 first — fastest when available
+    try {
+      const r = await fetch('/api/quote/' + ticker, { signal: AbortSignal.timeout(4000) });
+      if (r.ok) {
+        const d = await r.json();
+        const p = d?.chart?.result?.[0]?.meta?.regularMarketPrice;
+        if (p && p > 0) return p;
+      }
+    } catch (e) { /* fall through */ }
+    // Proxy chain
+    for (const wrap of PROXY_CHAIN) {
+      try {
+        const r = await fetch(wrap(yahoo), { signal: AbortSignal.timeout(6000) });
+        if (!r.ok) continue;
+        const d = await r.json();
+        const p = d?.chart?.result?.[0]?.meta?.regularMarketPrice;
+        if (p && p > 0) return p;
+      } catch (e) { /* try next */ }
+    }
+    return null;
+  }
+
+  window.fetchLivePrices = async function() {
+    const btn = document.getElementById('refreshBtn');
+    btn.disabled = true;
+    btn.textContent = 'Fetching...';
+    setBadge('fetching', 'FETCHING');
+
+    const tickers = portfolio.positions.map(p => p.ticker);
+    let successes = 0;
+
+    // Fetch all in parallel, batches of 7 to avoid overwhelming
+    for (let i = 0; i < tickers.length; i += 7) {
+      const batch = tickers.slice(i, i + 7);
+      const results = await Promise.allSettled(
+        batch.map(async tk => {
+          const price = await fetchOnePrice(tk);
+          return { ticker: tk, price };
+        })
+      );
+      for (const r of results) {
+        if (r.status === 'fulfilled' && r.value.price) {
+          const pos = portfolio.positions.find(p => p.ticker === r.value.ticker);
+          if (pos) {
+            pos.last_price_usd = r.value.price;
+            successes++;
+          }
+        }
+      }
+    }
+
+    portfolio = recompute(portfolio);
+    portfolio.last_refresh = new Date().toISOString();
+
+    renderKPIs(portfolio);
+    renderTable(portfolio);
+    sectorChartObj = renderDonut('sectorChart', portfolio.totals.sector_breakdown, sectorChartObj);
+    geoChartObj = renderDonut('geoChart', portfolio.totals.geography_breakdown, geoChartObj);
+
+    if (successes > 0) {
+      liveMode = true;
+      setBadge('live', 'LIVE (' + successes + '/' + tickers.length + ')');
+      document.getElementById('posHeader').textContent = 'Open positions (live prices)';
+    } else {
+      setBadge('snapshot', 'SNAPSHOT');
+      document.getElementById('posHeader').textContent = 'Open positions (snapshot — start serve-dashboard.ps1 for live)';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Refresh Prices';
+  };
+
+  // ─── BACKTEST STATS STRIP ─────────────────────────
+  function renderBacktestStats() {
+    const bt = M.backtest_stats;
+    if (!bt) return;
+    document.getElementById('btrange').textContent = '· ' + bt.inception_date + ' \u2192 ' + bt.mark_date;
+    const stat = (label, val, cls) => '<div><span style="color:var(--muted); text-transform:uppercase; letter-spacing:.5px; font-size:10px;">' + label + '</span><br><b class="' + (cls||'') + '" style="font-size:14px;">' + val + '</b></div>';
+    const el = document.getElementById('btstats');
+    const sign = n => (n >= 0 ? '+' : '') + n.toFixed(2) + '%';
+    // Live-computed Sharpe ratios (annualised, RF=4.5%)
+    const mSh = computeSharpe(snaps, 'market_value_usd');
+    const bSh = computeSharpe(M.bnh_path, 'nav_bnh');
+    const msSh = computeSharpe(M.msci_world_path, 'nav');
+    const fmtSh = v => v === null ? '—' : (v >= 0 ? '+' : '') + v.toFixed(2);
+    const shCls = v => v === null ? '' : (v >= 0 ? 'pnl-pos' : 'pnl-neg');
+
+    let html =
+      stat('Mahendra total', sign(bt.total_return_pct), 'pnl-pos') +
+      stat('B&amp;H (same 28)', sign(bt.buy_and_hold_return_pct), 'pnl-pos') +
+      stat('MSCI World', sign(bt.msci_world_return_pct ?? 0), 'pnl-pos') +
+      stat('SPY', sign(bt.spy_return_pct), 'pnl-pos') +
+      stat('Alpha vs MSCI', sign(bt.alpha_vs_msci_pct ?? (bt.total_return_pct - (bt.msci_world_return_pct ?? 0))), 'pnl-pos') +
+      stat('Alpha vs SPY', sign(bt.alpha_vs_spy_pct), 'pnl-pos') +
+      stat('Alpha vs B&amp;H', sign(bt.alpha_vs_bnh_pct), bt.alpha_vs_bnh_pct >= 0 ? 'pnl-pos' : 'pnl-neg') +
+      stat('Mahendra Sharpe', fmtSh(mSh), shCls(mSh)) +
+      stat('B&amp;H Sharpe', fmtSh(bSh), shCls(bSh)) +
+      stat('MSCI Sharpe', fmtSh(msSh), shCls(msSh)) +
+      stat('Mahendra max DD', bt.max_drawdown_pct.toFixed(2) + '%', 'pnl-neg') +
+      stat('MSCI max DD', (bt.msci_world_max_dd_pct ?? 0).toFixed(2) + '%', 'pnl-neg') +
+      stat('B&amp;H max DD', bt.buy_and_hold_max_dd_pct.toFixed(2) + '%', 'pnl-neg') +
+      stat('Phase 1 (long)', sign(bt.phase1_return_pct), 'pnl-pos') +
+      (bt.phase2b_hedge_return_pct !== undefined ? stat('Phase 2b (hedges)', sign(bt.phase2b_hedge_return_pct), 'pnl-pos') : '') +
+      stat('Phase 3 (long)', sign(bt.phase3_return_pct), 'pnl-pos');
+    if (bt.hedge_breakdown) {
+      html += '<div style="width:100%; margin-top:10px; padding-top:10px; border-top:1px dashed var(--grid); display:flex; gap:18px; flex-wrap:wrap;">';
+      html += '<span style="color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.5px; font-size:10px;">Cycle 2 hedge contributions</span>';
+      for (const [tk, hb] of Object.entries(bt.hedge_breakdown)) {
+        const cls = hb.pnl_usd >= 0 ? 'pnl-pos' : 'pnl-neg';
+        html += '<div><b>' + tk + '</b> <span class="' + cls + '">' + sign(hb.return_pct) + '</span> <span style="color:var(--muted);">(' + (hb.pnl_usd >= 0 ? '+' : '') + '$' + Math.abs(hb.pnl_usd).toLocaleString('en-US', {maximumFractionDigits: 0}) + ')</span></div>';
+      }
+      html += '</div>';
+    }
+    el.innerHTML = html;
+  }
+
+  // ─── LATEST WEEKLY BANNER ─────────────────────────
+  function renderWeekly() {
+    const w = M.latest_weekly; if (!w) return;
+    document.getElementById('wkDate').textContent = w.date + ' · ' + w.folder;
+    let html = '<div class="wk-banner"><div class="label">Headline</div><div class="headline">' + w.headline + '</div><ul>';
+    for (const p of (w.key_points || [])) html += '<li>' + p + '</li>';
+    html += '</ul></div>';
+    document.getElementById('weeklyBanner').innerHTML = html;
+  }
+
+  // ─── CYCLE CALENDAR STRIP ─────────────────────────
+  function renderCycles() {
+    const cal = M.cycle_calendar || []; if (!cal.length) return;
+    const el = document.getElementById('cycleStrip');
+    let html = '';
+    for (const c of cal) {
+      const cls = 'cycle-cell ' + (c.state || 'upcoming');
+      const fromDate = c.from.substring(5);
+      const toDate = c.to.substring(5);
+      html += '<div class="' + cls + '"><span class="num">' + c.cycle + '</span>';
+      html += '<div style="font-weight:600;">' + c.label.split('(')[0].trim().substring(0, 22) + '</div>';
+      html += '<div class="dates">' + fromDate + ' → ' + toDate + '</div>';
+      html += '<div class="tip"><b>Cycle ' + c.cycle + ' · ' + c.label + '</b><br><span style="color:#C9A659;">' + c.from + ' → ' + c.to + '</span><br>' + c.action + '</div>';
+      html += '</div>';
+    }
+    el.innerHTML = html;
+  }
+
+  // ─── RECOMMENDATIONS PANELS ───────────────────────
+  function renderRecommendations() {
+    const recs = M.recommendations || []; if (!recs.length) return;
+    const el = document.getElementById('recPanels');
+    let html = '';
+    for (const week of recs) {
+      html += '<div class="rec-week">';
+      html += '<h3><span class="wk-meta">Week ' + week.week + '</span><span class="wk-meta">' + week.from + ' → ' + week.to + '</span>' + week.theme + '</h3>';
+      html += '<table><thead><tr><th>Action</th><th>Ticker</th><th>Name</th><th class="num">Size %</th><th class="num">$ Amount</th><th class="num">Price</th><th>Rationale</th></tr></thead><tbody>';
+      for (const t of (week.trades || [])) {
+        const sizeCls = (t.size_pct || 0) < 0 ? 'pnl-neg' : 'pnl-pos';
+        html += '<tr>';
+        html += '<td><span class="action-pill action-' + (t.action || 'HOLD') + '">' + t.action + '</span>' + (t.conditional ? '<span class="cond-marker">CONDITIONAL</span>' : '') + '</td>';
+        html += '<td><b>' + (t.ticker || '') + '</b></td>';
+        html += '<td>' + (t.name || '') + '</td>';
+        html += '<td class="num ' + sizeCls + '">' + (t.size_pct > 0 ? '+' : '') + (t.size_pct || 0).toFixed(1) + '%</td>';
+        html += '<td class="num ' + sizeCls + '">' + (t.size_usd > 0 ? '+' : '') + '$' + Math.abs(t.size_usd || 0).toLocaleString('en-US',{maximumFractionDigits:0}) + '</td>';
+        html += '<td class="num">' + (t.price > 0 ? '$' + t.price.toFixed(2) : '—') + '</td>';
+        html += '<td style="color:var(--muted);">' + (t.rationale || '') + '</td>';
+        html += '</tr>';
+      }
+      html += '</tbody></table></div>';
+    }
+    el.innerHTML = html;
+  }
+
+  // ─── INITIAL RENDER ───────────────────────────────
+  portfolio = recompute(portfolio);
+  renderKPIs(portfolio);
+  renderTable(portfolio);
+  renderBacktestStats();
+  renderWeekly();
+  renderCycles();
+  renderRecommendations();
+  Chart.defaults.font.family = 'Inter';
+  Chart.defaults.color = '#0E1B2C';
+  sectorChartObj = renderDonut('sectorChart', portfolio.totals.sector_breakdown, null);
+  geoChartObj = renderDonut('geoChart', portfolio.totals.geography_breakdown, null);
+  renderPerf();
+
+  // Auto-fetch + 60s auto-refresh on desktop only. On phones/tablets the page
+  // renders from the snapshot in data.js; tapping "Refresh Prices" fetches live.
+  const isDesktop = window.matchMedia('(min-width: 901px)').matches;
+  if (isDesktop) {
+    fetchLivePrices();
+    autoRefreshTimer = setInterval(() => {
+      fetchLivePrices();
+    }, 60000);
+  } else {
+    setBadge('snapshot', 'SNAPSHOT');
+    document.getElementById('posHeader').textContent = 'Open positions (tap Refresh Prices for live)';
+  }
+})();
+</script>
+</body>
+</html>
