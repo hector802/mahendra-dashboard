@@ -1,0 +1,95 @@
+{
+ "equity.breadth_risk_switch": {
+  "snapshots": {
+   "2026-11-11": {
+    "w": {
+     "SPY": 1.0
+    },
+    "lev": 0.6842318114072087
+   }
+  }
+ },
+ "equity.spy_trend_benchmark": {
+  "snapshots": {
+   "2026-11-11": {
+    "w": {
+     "SPY": 1.0
+    },
+    "lev": 0.6842318114072087
+   }
+  }
+ },
+ "macro.risk_parity_trend": {
+  "snapshots": {
+   "2026-11-12": {
+    "w": {
+     "DBC": 0.055871
+    },
+    "lev": 2.0
+   }
+  }
+ },
+ "vol.vix_spike_reversion": {
+  "snapshots": {
+   "2026-11-12": {
+    "w": {
+     "SPY": 1.0
+    },
+    "lev": 0.6857386683066884
+   }
+  }
+ },
+ "vol.vol_managed_spy": {
+  "snapshots": {
+   "2026-11-12": {
+    "w": {
+     "SPY": 0.412754,
+     "SHY": 0.587246
+    },
+    "lev": 1.6590274647028387
+   }
+  }
+ },
+ "vol.vrp_spy_timing": {
+  "snapshots": {
+   "2026-11-12": {
+    "w": {
+     "TLT": 1.0
+    },
+    "lev": 0.9260202318938859
+   }
+  }
+ },
+ "crypto.btc_eth_rotation": {
+  "snapshots": {
+   "2026-11-12": {
+    "w": {},
+    "lev": 0.0
+   }
+  }
+ },
+ "crypto.donchian_breakout": {
+  "snapshots": {
+   "2026-11-12": {
+    "w": {},
+    "lev": 0.0
+   }
+  }
+ },
+ "crypto.invvol_trend_basket": {
+  "snapshots": {
+   "2026-11-12": {
+    "w": {},
+    "lev": 0.0
+   }
+  }
+ },
+ "crypto.xs_momentum_btc_regime": {
+  "snapshots": {
+   "2026-11-12": {
+    "w": {},
+    "lev": 0.0
+   }
+  }
+ }
+}

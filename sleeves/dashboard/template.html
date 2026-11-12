@@ -1,0 +1,278 @@
+<title>Mahendra Sleeve Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+/* Layout: navy masthead (matches the Mahendra portfolio site), KPI strip, then sleeve tabs with a strategy table and a detail drawer. */
+:root{
+  --navy:#0E1B2C; --gold:#B8923F; --bg:#F6F7F9; --surface:#FFFFFF; --ink:#0E1B2C; --muted:#5E6B7E;
+  --line:#DCE1E8; --soft:#EEF1F5;
+  --good:#2E7D4F; --warn:#C9801F; --bad:#B3332A; --info:#2F5D8C;
+  --good-soft:#E3F1E8; --warn-soft:#F8EEDC; --bad-soft:#F7E3E1; --info-soft:#E3ECF6;
+  --display:"Playfair Display",Georgia,serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --navy:#09121D; --gold:#D4B26A; --bg:#0D1724; --surface:#132134; --ink:#E6ECF3; --muted:#93A2B6;
+  --line:#22344B; --soft:#1A2B41;
+  --good:#5DBB84; --warn:#E3A24F; --bad:#EE7B70; --info:#7FA9D6;
+  --good-soft:#173527; --warn-soft:#3A2B17; --bad-soft:#3D1E1C; --info-soft:#1A2A3F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --navy:#09121D; --gold:#D4B26A; --bg:#0D1724; --surface:#132134; --ink:#E6ECF3; --muted:#93A2B6;
+  --line:#22344B; --soft:#1A2B41;
+  --good:#5DBB84; --warn:#E3A24F; --bad:#EE7B70; --info:#7FA9D6;
+  --good-soft:#173527; --warn-soft:#3A2B17; --bad-soft:#3D1E1C; --info-soft:#1A2A3F; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5;margin:0;font-variant-numeric:tabular-nums}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:1180px;margin:0 auto}
+header.mast{background:var(--navy);color:#fff;border-bottom:3px solid var(--gold);padding-block:18px}
+header.mast .inner{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;justify-content:space-between}
+.brand{font-family:var(--display);font-size:24px;letter-spacing:.3px}
+.brand span{color:var(--gold)}
+.meta{font-family:var(--mono);font-size:12px;color:#B9C4D3}
+.banner{background:var(--warn-soft);color:var(--ink);border-bottom:1px solid var(--line);padding-block:8px;font-size:13px}
+.banner b{color:var(--warn)}
+main{padding-block:24px 56px}
+main .inner{display:flex;flex-direction:column;gap:28px}
+h2{font-family:var(--display);font-weight:600;font-size:21px;margin:0;text-wrap:balance}
+h3{font-size:14px;margin:0;font-weight:600}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.kpi{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi .v{font-size:24px;font-weight:600;letter-spacing:-.01em}
+.kpi .s{font-size:12px;color:var(--muted)}
+.row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.chart{position:relative;height:260px}
+.chart.sm{height:200px}
+.funnel{display:flex;flex-direction:column;gap:8px}
+.fbar{display:grid;grid-template-columns:96px 1fr 28px;gap:10px;align-items:center;font-size:13px}
+.fbar .track{height:10px;background:var(--soft);border-radius:5px;overflow:hidden}
+.fbar .fill{height:100%;border-radius:5px}
+.fbar .n{font-family:var(--mono);text-align:right}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tab{appearance:none;border:none;background:none;font:inherit;font-weight:500;color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--gold)}
+.tab:focus-visible,.srow:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.tab .c{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:6px}
+.sleeve-head{display:flex;flex-wrap:wrap;gap:8px 28px}
+.sleeve-head div{display:flex;flex-direction:column}
+.sleeve-head b{font-size:16px;font-weight:600}
+.tablebox{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:1040px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+.srow{cursor:pointer}
+.srow:hover td{background:var(--soft)}
+.srow.sel td{background:var(--soft)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-live{background:var(--good-soft);color:var(--good)}
+.st-incubation{background:var(--warn-soft);color:var(--warn)}
+.st-paper{background:var(--info-soft);color:var(--info)}
+.st-rejected,.st-error{background:var(--soft);color:var(--muted)}
+.st-derisked,.st-retired{background:var(--bad-soft);color:var(--bad)}
+.pos{color:var(--good)} .neg{color:var(--bad)} .dim{color:var(--muted)}
+.fails{font-size:12px;color:var(--muted);white-space:normal;text-align:left;min-width:220px}
+.alloc{display:inline-block;height:6px;background:var(--gold);border-radius:3px;vertical-align:middle;margin-right:6px}
+.detail{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px}
+.detail p{margin:0;max-width:70ch}
+.checks{display:flex;flex-wrap:wrap;gap:6px}
+.chk{font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:4px}
+.chk.ok{background:var(--good-soft);color:var(--good)} .chk.no{background:var(--bad-soft);color:var(--bad)}
+.kv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.kv div{display:flex;flex-direction:column}
+.kv b{font-weight:600}
+.reg{display:flex;flex-wrap:wrap;gap:6px}
+.reg span{font-size:12px;background:var(--soft);border-radius:4px;padding:3px 8px}
+.empty{color:var(--muted);font-size:13px}
+.note{font-size:12px;color:var(--muted)}
+footer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.row,.detail{grid-template-columns:1fr}.kv{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="mast pad"><div class="inner">
+  <div class="brand">Mahendra <span>Sleeve Lab</span></div>
+  <div class="meta" id="meta"></div>
+</div></header>
+<div class="banner pad"><div class="inner"><b>Paper trading only.</b> No broker is connected and no real orders are placed. "Incubation" and "live" are simulated stages. Backtest and holdout figures are historical simulations, not results.</div></div>
+
+<main class="pad"><div class="inner">
+
+  <section class="kpis" id="kpis" aria-label="Summary"></section>
+
+  <section class="row">
+    <div class="panel" id="portfolio-panel">
+      <div class="panel-head"><h2>Portfolio</h2><span class="label" id="port-label"></span></div>
+      <div class="chart"><canvas id="port-chart" aria-label="Portfolio equity curve"></canvas></div>
+      <p class="note" id="port-note"></p>
+    </div>
+    <div class="panel" id="funnel-panel">
+      <div class="panel-head"><h2>Pipeline</h2><span class="label">strategies by stage</span></div>
+      <div class="funnel" id="funnel"></div>
+      <p class="note">Strategies move left to right only when each gate passes. Rejected ideas stay in the registry so agents learn from them.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="sleeves-panel">
+    <div class="panel-head"><h2>Sleeves</h2><span class="label">select a strategy for detail</span></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="sleeve-head" id="sleeve-head"></div>
+    <div class="row">
+      <div class="chart sm"><canvas id="sleeve-chart" aria-label="Sleeve equity curve"></canvas></div>
+      <div class="chart sm"><canvas id="alloc-chart" aria-label="Allocation"></canvas></div>
+    </div>
+    <div class="tablebox"><table id="strat-table"><thead><tr>
+      <th>Strategy</th><th>Stage</th><th>In-sample Sharpe</th><th>Walk-fwd Sharpe</th><th>Deflated SR</th><th>PBO</th>
+      <th>Holdout Sharpe</th><th>Holdout DD</th><th>Paper</th><th>Allocation</th><th>Failed gates</th>
+    </tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="panel" id="detail-panel"></section>
+
+  <section class="panel" id="log-panel">
+    <div class="panel-head"><h2>Post-mortems</h2><span class="label">retired strategies</span></div>
+    <div id="postmortems"></div>
+  </section>
+
+  <footer>Generated by the agentic sleeve pipeline. Research agents write strategies; deterministic code validates, allocates and monitors them. Thresholds: <span id="gates"></span>. Not investment advice.</footer>
+</div></main>
+
+<script>window.DATA = __DATA__;</script>
+<script>
+(function(){
+const D = window.DATA;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const pct = (x,d=1) => x==null||isNaN(x) ? "–" : (x*100).toFixed(d)+"%";
+const num = (x,d=2) => x==null||isNaN(x) ? "–" : Number(x).toFixed(d);
+const cls = x => x==null ? "dim" : (x>0 ? "pos" : x<0 ? "neg" : "");
+const el = (tag, attrs={}, text) => { const e=document.createElement(tag); for(const k in attrs) e.setAttribute(k, attrs[k]); if(text!=null) e.textContent=text; return e; };
+const STAGES = ["rejected","paper","incubation","live","derisked","retired"];
+const STAGE_COLOR = {rejected:"--muted",paper:"--info",incubation:"--warn",live:"--good",derisked:"--bad",retired:"--bad"};
+const sleeves = Object.entries(D.sleeves);
+const all = sleeves.flatMap(([k,s]) => s.strategies.map(r => ({...r, sleeve:k})));
+
+document.getElementById("meta").textContent = `Data as of ${D.data_asof} · run ${D.generated_at.replace("T"," ").slice(0,16)} UTC`;
+document.getElementById("gates").textContent = `in-sample Sharpe ≥ ${D.gates.backtest_min_sharpe}, deflated SR ≥ ${D.gates.dsr_min_prob}, PBO ≤ ${D.gates.pbo_max}, holdout Sharpe ≥ ${D.gates.holdout_min_sharpe}`;
+
+// KPIs
+const F = D.funnel, P = D.portfolio;
+const active = (F.paper||0)+(F.incubation||0)+(F.live||0)+(F.derisked||0);
+const kpis = [
+  ["Strategies tested", F.total, `${D.total_trials} backtest trials logged`],
+  ["Passed validation", active, `${F.rejected||0} rejected`],
+  ["Paper return", pct(P.paper_return,2), P.paper_curve.length ? `${P.paper_curve.length} trading days` : "tracking starts today"],
+  ["Holdout Sharpe", num(P.proforma_holdout.sharpe), "pro-forma portfolio, last 2 yrs"],
+  ["Holdout CAGR", pct(P.proforma_holdout.cagr), "pro-forma portfolio"],
+  ["Holdout max DD", pct(P.proforma_holdout.max_dd), "pro-forma portfolio"],
+];
+const K = document.getElementById("kpis");
+kpis.forEach(([l,v,s]) => { const d=el("div",{class:"kpi"}); d.append(el("span",{class:"label"},l), el("span",{class:"v"},String(v)), el("span",{class:"s"},s)); K.append(d); });
+
+// Funnel
+const FN = document.getElementById("funnel"); const fmax = Math.max(1,...STAGES.map(s=>F[s]||0));
+STAGES.forEach(s => { const r=el("div",{class:"fbar"}); const t=el("div",{class:"track"}); const f=el("div",{class:"fill"});
+  f.style.width = ((F[s]||0)/fmax*100)+"%"; f.style.background = css(STAGE_COLOR[s]); t.append(f);
+  r.append(el("span",{},s[0].toUpperCase()+s.slice(1)), t, el("span",{class:"n"},String(F[s]||0))); FN.append(r); });
+
+// Charts
+Chart.defaults.font.family = css("--body"); Chart.defaults.color = css("--muted"); Chart.defaults.borderColor = css("--line");
+const lineOpts = (pctAxis=true) => ({responsive:true, maintainAspectRatio:false, interaction:{mode:"index",intersect:false},
+  plugins:{legend:{labels:{boxWidth:10,boxHeight:10}}, tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${pct(c.parsed.y-1,1)}`}}},
+  scales:{x:{type:"category",ticks:{maxTicksLimit:6,autoSkip:true},grid:{display:false}}, y:{ticks:{callback:v=>pct(v-1,0)}}},
+  elements:{point:{radius:0},line:{borderWidth:2,tension:0}}});
+
+const pc = P.proforma_curve;
+const portDatasets = [{label:"Pro-forma holdout (backtest)", data:pc.map(p=>p[1]), borderColor:css("--gold"), backgroundColor:"transparent"}];
+new Chart(document.getElementById("port-chart"), {type:"line", data:{labels:pc.map(p=>p[0]), datasets:portDatasets}, options:lineOpts()});
+document.getElementById("port-label").textContent = "pro-forma holdout";
+document.getElementById("port-note").textContent = P.paper_curve.length
+  ? `Forward paper trading: ${pct(P.paper_return,2)} over ${P.paper_curve.length} days.`
+  : "Today's allocation applied to the last two years, which the research agents never saw. Forward paper results appear here as days accrue.";
+
+// Sleeves
+let sleeveChart, allocChart, current = sleeves[0][0];
+const tabs = document.getElementById("tabs");
+sleeves.forEach(([k,s]) => { const live = s.strategies.filter(r=>r.allocation>0).length;
+  const b = el("button",{class:"tab",role:"tab",id:"tab-"+k,"aria-selected":String(k===current)}, s.name);
+  b.append(el("span",{class:"c"},`${live}/${s.strategies.length}`)); b.onclick=()=>{current=k; renderSleeve();}; tabs.append(b); });
+
+function renderSleeve(){
+  const s = D.sleeves[current];
+  tabs.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected", String(t.id==="tab-"+current)));
+  const H = document.getElementById("sleeve-head"); H.replaceChildren();
+  [["Risk share",pct(s.risk_share,0)],["Vol target",pct(s.vol_target,0)],["Drawdown budget",pct(s.max_dd,0)],["Costs",s.cost_bps+" bps"],
+   ["Holdout Sharpe",num(s.proforma_holdout.sharpe)],["Holdout CAGR",pct(s.proforma_holdout.cagr)],["Holdout DD",pct(s.proforma_holdout.max_dd)]]
+   .forEach(([l,v])=>{const d=el("div"); d.append(el("span",{class:"label"},l), el("b",{},v)); H.append(d);});
+  const c = s.proforma_curve;
+  sleeveChart && sleeveChart.destroy();
+  sleeveChart = new Chart(document.getElementById("sleeve-chart"), {type:"line", data:{labels:c.map(p=>p[0]), datasets:[{label:`${s.name} pro-forma holdout`, data:c.map(p=>p[1]), borderColor:css("--navy")==css("--bg")?css("--gold"):css("--info")}]}, options:lineOpts()});
+  const al = s.strategies.filter(r=>r.allocation>0).sort((a,b)=>b.allocation-a.allocation);
+  allocChart && allocChart.destroy();
+  const palette = ["--gold","--info","--good","--warn","--bad","--muted"].map(css);
+  allocChart = new Chart(document.getElementById("alloc-chart"), {type:"bar",
+    data:{labels:al.length?al.map(r=>r.name):["No allocation yet"], datasets:[{label:"Allocation", data:al.length?al.map(r=>r.allocation*100):[0], backgroundColor:al.map((_,i)=>palette[i%palette.length])}]},
+    options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.x.toFixed(1)}% of sleeve`}}},
+      scales:{x:{max:100,ticks:{callback:v=>v+"%"}},y:{grid:{display:false}}}}});
+  const tb = document.querySelector("#strat-table tbody"); tb.replaceChildren();
+  const order = {live:0,incubation:1,paper:2,derisked:3,retired:4,rejected:5,error:6};
+  const rows = [...s.strategies].sort((a,b)=>(order[a.stage]-order[b.stage]) || (b.allocation-a.allocation) || ((b.holdout?.sharpe||0)-(a.holdout?.sharpe||0)));
+  rows.forEach((r,i) => {
+    const tr = el("tr",{class:"srow",tabindex:"0"});
+    const n = el("td"); n.append(el("b",{},r.name)); tr.append(n);
+    const st = el("td"); st.append(el("span",{class:"pill st-"+r.stage}, r.stage)); tr.append(st);
+    const cell = (v,f,c) => tr.append(el("td",{class:c||""},f(v)));
+    if(r.stage==="error"){ tr.append(el("td",{colspan:"9",class:"fails"}, r.error)); tb.append(tr); return; }
+    cell(r.in_sample.sharpe,num,cls(r.in_sample.sharpe)); cell(r.walk_forward.sharpe,num,cls(r.walk_forward.sharpe));
+    cell(r.dsr,x=>pct(x,0)); cell(r.pbo,x=>x==null?"n/a":pct(x,0));
+    cell(r.holdout.sharpe,num,cls(r.holdout.sharpe)); cell(r.holdout.max_dd,pct,"neg");
+    cell(r.paper_days?r.paper_return:null, x=>r.paper_days?`${pct(x,2)} · ${r.paper_days}d`:"–", r.paper_days?cls(r.paper_return):"dim");
+    const a = el("td"); if(r.allocation>0){ const bar=el("span",{class:"alloc"}); bar.style.width=Math.round(r.allocation*60)+"px"; a.append(bar);} a.append(document.createTextNode(r.allocation>0?pct(r.allocation,0):"–")); tr.append(a);
+    tr.append(el("td",{class:"fails"}, (r.failed_checks||[]).join(", ").replace(/_/g," ") || "none"));
+    tr.onclick = () => { tb.querySelectorAll(".srow").forEach(x=>x.classList.remove("sel")); tr.classList.add("sel"); renderDetail(r); };
+    tr.onkeydown = e => { if(e.key==="Enter"||e.key===" "){ e.preventDefault(); tr.onclick(); } };
+    tb.append(tr);
+    if(i===0){ tr.classList.add("sel"); renderDetail(r); }
+  });
+}
+
+let detailChart;
+function renderDetail(r){
+  const P = document.getElementById("detail-panel"); P.replaceChildren();
+  const h = el("div",{class:"panel-head"}); const t=el("h2",{},r.name); h.append(t, el("span",{class:"pill st-"+r.stage}, r.stage)); P.append(h);
+  if(r.stage==="error"){ P.append(el("p",{class:"empty"},r.error)); return; }
+  const g = el("div",{class:"detail"}); const L = el("div",{style:"display:flex;flex-direction:column;gap:12px"});
+  L.append(el("span",{class:"label"},"Hypothesis"), el("p",{},r.rationale), el("span",{class:"label"},"Stated failure condition"), el("p",{},r.failure_condition));
+  const ck = el("div",{class:"checks"}); Object.entries(r.checks).forEach(([k,ok])=>ck.append(el("span",{class:"chk "+(ok?"ok":"no")},(ok?"✓ ":"✗ ")+k.replace(/_/g," "))));
+  L.append(el("span",{class:"label"},"Validation gates"), ck);
+  const kv = el("div",{class:"kv"});
+  [["In-sample CAGR",pct(r.in_sample.cagr)],["In-sample DD",pct(r.in_sample.max_dd)],["Turnover / yr",num(r.turnover_yr,1)+"×"],["Trials logged",r.trials],
+   ["Param stability",pct(r.stability,0)],["Holdout CAGR",pct(r.holdout.cagr)],["Paper since",r.paper_start||"–"],["Author",r.author]]
+   .forEach(([l,v])=>{const d=el("div"); d.append(el("span",{class:"label"},l), el("b",{},String(v))); kv.append(d);});
+  L.append(kv);
+  const reg = el("div",{class:"reg"}); Object.entries(r.regimes||{}).forEach(([k,v])=>{ if(typeof v==="number" && k!=="pct_years_positive") { const s=el("span",{},`${k}: `); s.append(el("b",{class:cls(v)},pct(v,1))); reg.append(s);} });
+  if(r.regimes) { const s=el("span",{},"Positive years: "); s.append(el("b",{},pct(r.regimes.pct_years_positive,0))); reg.append(s); }
+  L.append(el("span",{class:"label"},"Stress periods (in-sample)"), reg);
+  const R = el("div",{style:"display:flex;flex-direction:column;gap:8px;min-width:0"});
+  R.append(el("span",{class:"label"}, r.paper_curve.length ? "Paper trading (forward)" : "Holdout window (unseen by agent)"));
+  const box = el("div",{class:"chart sm"}); const cv = el("canvas",{"aria-label":"Strategy curve"}); box.append(cv); R.append(box);
+  const cw = r.current_weights && r.current_weights.w ? Object.entries(r.current_weights.w).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,8) : [];
+  if(cw.length){ R.append(el("span",{class:"label"},`Current target positions (×${num(r.current_weights.lev,2)} vol scaling)`)); const rg=el("div",{class:"reg"}); cw.forEach(([k,v])=>{const s=el("span",{},k+" "); s.append(el("b",{class:cls(v)},pct(v,0))); rg.append(s);}); R.append(rg); }
+  g.append(L,R); P.append(g);
+  const c = r.paper_curve.length ? r.paper_curve : r.holdout_curve;
+  detailChart && detailChart.destroy();
+  detailChart = new Chart(cv, {type:"line", data:{labels:c.map(p=>p[0]), datasets:[{label:r.name, data:c.map(p=>p[1]), borderColor:css("--gold")}]}, options:lineOpts()});
+}
+renderSleeve();
+
+const PM = document.getElementById("postmortems");
+if(!D.postmortems.length){ PM.append(el("p",{class:"empty"},"No strategies retired yet. When monitoring retires one, the reason is written here and fed back to the research agents.")); }
+else D.postmortems.forEach(p=>PM.append(el("p",{},`${p.date} · ${p.key}: ${p.reason}`)));
+})();
+</script>

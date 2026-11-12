@@ -1,0 +1,282 @@
+{
+ "equity.breadth_risk_switch": {
+  "hash": "bacc255b1c52",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-11"
+ },
+ "equity.dual_momentum_regions": {
+  "hash": "198a07a6c053",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "equity.factor_momentum_rotation": {
+  "hash": "b9daa27a9cf3",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "equity.index_tsmom": {
+  "hash": "4e6d5d4c8da7",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "equity.sector_low_vol_bab": {
+  "hash": "5fd3c2e06c51",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "equity.sector_momentum_12_1": {
+  "hash": "78cf1a7b9e27",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "equity.sector_short_reversal": {
+  "hash": "ae7452f324fc",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "equity.spy_trend_benchmark": {
+  "hash": "aac128e67fc0",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-11"
+ },
+ "macro.credit_regime_duration": {
+  "hash": "6b88863aab4a",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "macro.duration_momentum": {
+  "hash": "e8176e3828c5",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "macro.fx_trend": {
+  "hash": "3f1a59c1a8db",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "macro.gold_real_rates": {
+  "hash": "8ab03d6a8485",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "macro.risk_parity_trend": {
+  "hash": "cd23bc18347b",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-12"
+ },
+ "macro.ts_trend_multi": {
+  "hash": "3affb336a9cd",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "macro.xasset_momentum_rank": {
+  "hash": "bba4ecad6bd5",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "vol.ts_carry_svxy": {
+  "hash": "986a1b263f8f",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "vol.ts_regime_hedge": {
+  "hash": "5986965ba7f2",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "vol.vix_spike_reversion": {
+  "hash": "b3ab923f0f21",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-12"
+ },
+ "vol.vol_managed_spy": {
+  "hash": "7469cadcda34",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-12"
+ },
+ "vol.vrp_carry_svxy": {
+  "hash": "73d9760d3edb",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "vol.vrp_spy_timing": {
+  "hash": "c55466e91102",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-12"
+ },
+ "crypto.btc_eth_rotation": {
+  "hash": "762d0eacacb1",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-12"
+ },
+ "crypto.btc_trend_ensemble": {
+  "hash": "71f2a966b560",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "crypto.donchian_breakout": {
+  "hash": "6e0ee0f6f1a8",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-12"
+ },
+ "crypto.invvol_trend_basket": {
+  "hash": "8c4a00ec193a",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-12"
+ },
+ "crypto.st_reversal_uptrend": {
+  "hash": "53bd0d97e78a",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "crypto.xs_momentum_btc_regime": {
+  "hash": "625a71a59559",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-12",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-12"
+ }
+}

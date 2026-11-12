@@ -1,0 +1,600 @@
+{
+ "sleeve": "crypto",
+ "trials": [
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "btc_trend_ensemble",
+   "phase": "research",
+   "params": {
+    "lookbacks": "(20, 60, 120, 240)"
+   },
+   "sharpe": 1.3369,
+   "n": 3676
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "btc_trend_ensemble",
+   "phase": "research",
+   "params": {
+    "lookbacks": "(10, 30, 60)"
+   },
+   "sharpe": 1.132,
+   "n": 3683
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "btc_trend_ensemble",
+   "phase": "research",
+   "params": {
+    "lookbacks": "(60, 120, 240)"
+   },
+   "sharpe": 1.2971,
+   "n": 3627
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 30,
+    "top_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.0999,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 30,
+    "top_k": 5,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.1628,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 60,
+    "top_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.1855,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 60,
+    "top_k": 5,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.1715,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 90,
+    "top_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.2351,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 90,
+    "top_k": 5,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.2785,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "btc_eth_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 30
+   },
+   "sharpe": 1.3331,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "btc_eth_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 60
+   },
+   "sharpe": 0.8365,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "btc_eth_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 90
+   },
+   "sharpe": 0.9635,
+   "n": 3494
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "invvol_trend_basket",
+   "phase": "research",
+   "params": {
+    "ma_window": 50,
+    "vol_window": 60,
+    "min_hist": 180
+   },
+   "sharpe": 1.2028,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "invvol_trend_basket",
+   "phase": "research",
+   "params": {
+    "ma_window": 100,
+    "vol_window": 60,
+    "min_hist": 180
+   },
+   "sharpe": 1.0922,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "invvol_trend_basket",
+   "phase": "research",
+   "params": {
+    "ma_window": 200,
+    "vol_window": 60,
+    "min_hist": 180
+   },
+   "sharpe": 1.511,
+   "n": 3438
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "donchian_breakout",
+   "phase": "research",
+   "params": {
+    "entry": 20,
+    "coins": "('BTC-USD', 'ETH-USD', 'LTC-USD')",
+    "min_hist": 180
+   },
+   "sharpe": 1.0226,
+   "n": 3480
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "donchian_breakout",
+   "phase": "research",
+   "params": {
+    "entry": 55,
+    "coins": "('BTC-USD', 'ETH-USD', 'LTC-USD')",
+    "min_hist": 180
+   },
+   "sharpe": 1.1198,
+   "n": 3459
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "donchian_breakout",
+   "phase": "research",
+   "params": {
+    "entry": 100,
+    "coins": "('BTC-USD', 'ETH-USD', 'LTC-USD')",
+    "min_hist": 180
+   },
+   "sharpe": 1.0582,
+   "n": 3431
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "research",
+   "params": {
+    "lookback": 7,
+    "bottom_k": 2,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 0.7181,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "research",
+   "params": {
+    "lookback": 7,
+    "bottom_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 0.6936,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "research",
+   "params": {
+    "lookback": 14,
+    "bottom_k": 2,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 0.8741,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:00+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "research",
+   "params": {
+    "lookback": 14,
+    "bottom_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 0.8775,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:32+00:00",
+   "strategy": "btc_trend_ensemble",
+   "phase": "research",
+   "params": {
+    "lookbacks": "(20, 60, 120, 240)"
+   },
+   "sharpe": 1.2231,
+   "n": 3676
+  },
+  {
+   "ts": "2026-11-12T13:22:33+00:00",
+   "strategy": "btc_trend_ensemble",
+   "phase": "research",
+   "params": {
+    "lookbacks": "(10, 30, 60)"
+   },
+   "sharpe": 0.8198,
+   "n": 3676
+  },
+  {
+   "ts": "2026-11-12T13:22:33+00:00",
+   "strategy": "btc_trend_ensemble",
+   "phase": "research",
+   "params": {
+    "lookbacks": "(60, 120, 240)"
+   },
+   "sharpe": 1.1211,
+   "n": 3627
+  },
+  {
+   "ts": "2026-11-12T13:22:34+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 30,
+    "top_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.4424,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:34+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 30,
+    "top_k": 5,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.52,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:35+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 60,
+    "top_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.5941,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:35+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 60,
+    "top_k": 5,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.4971,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:36+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 90,
+    "top_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.6622,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:36+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "research",
+   "params": {
+    "lookback": 90,
+    "top_k": 5,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.6266,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:37+00:00",
+   "strategy": "btc_eth_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 30
+   },
+   "sharpe": 1.4819,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:37+00:00",
+   "strategy": "btc_eth_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 60
+   },
+   "sharpe": 1.0948,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:37+00:00",
+   "strategy": "btc_eth_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 90
+   },
+   "sharpe": 1.167,
+   "n": 3494
+  },
+  {
+   "ts": "2026-11-12T13:22:38+00:00",
+   "strategy": "invvol_trend_basket",
+   "phase": "research",
+   "params": {
+    "ma_window": 50,
+    "vol_window": 60,
+    "min_hist": 180
+   },
+   "sharpe": 1.3381,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:39+00:00",
+   "strategy": "invvol_trend_basket",
+   "phase": "research",
+   "params": {
+    "ma_window": 100,
+    "vol_window": 60,
+    "min_hist": 180
+   },
+   "sharpe": 1.2796,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:39+00:00",
+   "strategy": "invvol_trend_basket",
+   "phase": "research",
+   "params": {
+    "ma_window": 200,
+    "vol_window": 60,
+    "min_hist": 180
+   },
+   "sharpe": 1.5394,
+   "n": 3438
+  },
+  {
+   "ts": "2026-11-12T13:22:40+00:00",
+   "strategy": "donchian_breakout",
+   "phase": "research",
+   "params": {
+    "entry": 20,
+    "coins": "('BTC-USD', 'ETH-USD', 'LTC-USD')",
+    "min_hist": 180
+   },
+   "sharpe": 1.2381,
+   "n": 3480
+  },
+  {
+   "ts": "2026-11-12T13:22:40+00:00",
+   "strategy": "donchian_breakout",
+   "phase": "research",
+   "params": {
+    "entry": 55,
+    "coins": "('BTC-USD', 'ETH-USD', 'LTC-USD')",
+    "min_hist": 180
+   },
+   "sharpe": 1.2353,
+   "n": 3459
+  },
+  {
+   "ts": "2026-11-12T13:22:41+00:00",
+   "strategy": "donchian_breakout",
+   "phase": "research",
+   "params": {
+    "entry": 100,
+    "coins": "('BTC-USD', 'ETH-USD', 'LTC-USD')",
+    "min_hist": 180
+   },
+   "sharpe": 1.1419,
+   "n": 3431
+  },
+  {
+   "ts": "2026-11-12T13:22:41+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "research",
+   "params": {
+    "lookback": 7,
+    "bottom_k": 2,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.0371,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:42+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "research",
+   "params": {
+    "lookback": 7,
+    "bottom_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 0.9615,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:42+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "research",
+   "params": {
+    "lookback": 14,
+    "bottom_k": 2,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.124,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:22:43+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "research",
+   "params": {
+    "lookback": 14,
+    "bottom_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 1.1169,
+   "n": 3529
+  },
+  {
+   "ts": "2026-11-12T13:25:10+00:00",
+   "strategy": "btc_eth_rotation",
+   "phase": "holdout",
+   "params": {
+    "lookback": 60
+   },
+   "sharpe": 0.0625,
+   "n": 731
+  },
+  {
+   "ts": "2026-11-12T13:25:14+00:00",
+   "strategy": "btc_trend_ensemble",
+   "phase": "holdout",
+   "params": {
+    "lookbacks": "(20, 60, 120, 240)"
+   },
+   "sharpe": -0.4708,
+   "n": 731
+  },
+  {
+   "ts": "2026-11-12T13:25:16+00:00",
+   "strategy": "donchian_breakout",
+   "phase": "holdout",
+   "params": {
+    "entry": 55,
+    "coins": "('BTC-USD', 'ETH-USD', 'LTC-USD')",
+    "min_hist": 180
+   },
+   "sharpe": 0.1489,
+   "n": 731
+  },
+  {
+   "ts": "2026-11-12T13:25:18+00:00",
+   "strategy": "invvol_trend_basket",
+   "phase": "holdout",
+   "params": {
+    "ma_window": 100,
+    "vol_window": 60,
+    "min_hist": 180
+   },
+   "sharpe": 0.0081,
+   "n": 731
+  },
+  {
+   "ts": "2026-11-12T13:25:20+00:00",
+   "strategy": "st_reversal_uptrend",
+   "phase": "holdout",
+   "params": {
+    "lookback": 7,
+    "bottom_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": -0.3885,
+   "n": 731
+  },
+  {
+   "ts": "2026-11-12T13:25:24+00:00",
+   "strategy": "xs_momentum_btc_regime",
+   "phase": "holdout",
+   "params": {
+    "lookback": 60,
+    "top_k": 3,
+    "regime_window": 100,
+    "min_hist": 180
+   },
+   "sharpe": 0.1471,
+   "n": 731
+  }
+ ],
+ "postmortems": []
+}

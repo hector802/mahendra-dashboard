@@ -1,0 +1,164 @@
+{
+ "equity.breadth_risk_switch": {
+  "hash": "bacc255b1c52",
+  "first_look": "2026-11-12",
+  "sharpe": 0.5320810918279992,
+  "looks": 1
+ },
+ "equity.dual_momentum_regions": {
+  "hash": "198a07a6c053",
+  "first_look": "2026-11-12",
+  "sharpe": 0.5409388736435533,
+  "looks": 1
+ },
+ "equity.factor_momentum_rotation": {
+  "hash": "b9daa27a9cf3",
+  "first_look": "2026-11-12",
+  "sharpe": 1.0304760833240147,
+  "looks": 1
+ },
+ "equity.index_tsmom": {
+  "hash": "4e6d5d4c8da7",
+  "first_look": "2026-11-12",
+  "sharpe": 0.585024971282333,
+  "looks": 1
+ },
+ "equity.sector_low_vol_bab": {
+  "hash": "5fd3c2e06c51",
+  "first_look": "2026-11-12",
+  "sharpe": 0.2760666765361349,
+  "looks": 1
+ },
+ "equity.sector_momentum_12_1": {
+  "hash": "78cf1a7b9e27",
+  "first_look": "2026-11-12",
+  "sharpe": 0.6545487370218337,
+  "looks": 1
+ },
+ "equity.sector_short_reversal": {
+  "hash": "ae7452f324fc",
+  "first_look": "2026-11-12",
+  "sharpe": -0.30868797385935803,
+  "looks": 1
+ },
+ "equity.spy_trend_benchmark": {
+  "hash": "aac128e67fc0",
+  "first_look": "2026-11-12",
+  "sharpe": 0.3997684486522132,
+  "looks": 1
+ },
+ "macro.credit_regime_duration": {
+  "hash": "6b88863aab4a",
+  "first_look": "2026-11-12",
+  "sharpe": -0.02466511924781703,
+  "looks": 1
+ },
+ "macro.duration_momentum": {
+  "hash": "e8176e3828c5",
+  "first_look": "2026-11-12",
+  "sharpe": -0.1639149339429244,
+  "looks": 1
+ },
+ "macro.fx_trend": {
+  "hash": "3f1a59c1a8db",
+  "first_look": "2026-11-12",
+  "sharpe": -0.06754633570556363,
+  "looks": 1
+ },
+ "macro.gold_real_rates": {
+  "hash": "8ab03d6a8485",
+  "first_look": "2026-11-12",
+  "sharpe": 0.8306549754555728,
+  "looks": 1
+ },
+ "macro.risk_parity_trend": {
+  "hash": "cd23bc18347b",
+  "first_look": "2026-11-12",
+  "sharpe": 0.7433679208729161,
+  "looks": 1
+ },
+ "macro.ts_trend_multi": {
+  "hash": "3affb336a9cd",
+  "first_look": "2026-11-12",
+  "sharpe": 0.4259988490669066,
+  "looks": 1
+ },
+ "macro.xasset_momentum_rank": {
+  "hash": "bba4ecad6bd5",
+  "first_look": "2026-11-12",
+  "sharpe": 0.4481078410526752,
+  "looks": 1
+ },
+ "vol.ts_carry_svxy": {
+  "hash": "986a1b263f8f",
+  "first_look": "2026-11-12",
+  "sharpe": -0.40935212690849926,
+  "looks": 1
+ },
+ "vol.ts_regime_hedge": {
+  "hash": "5986965ba7f2",
+  "first_look": "2026-11-12",
+  "sharpe": 0.16885624749655248,
+  "looks": 1
+ },
+ "vol.vix_spike_reversion": {
+  "hash": "b3ab923f0f21",
+  "first_look": "2026-11-12",
+  "sharpe": 0.838490907177086,
+  "looks": 1
+ },
+ "vol.vol_managed_spy": {
+  "hash": "7469cadcda34",
+  "first_look": "2026-11-12",
+  "sharpe": 0.44207897897947934,
+  "looks": 1
+ },
+ "vol.vrp_carry_svxy": {
+  "hash": "73d9760d3edb",
+  "first_look": "2026-11-12",
+  "sharpe": -1.3703282222162478,
+  "looks": 1
+ },
+ "vol.vrp_spy_timing": {
+  "hash": "c55466e91102",
+  "first_look": "2026-11-12",
+  "sharpe": 0.21137584136562737,
+  "looks": 1
+ },
+ "crypto.btc_eth_rotation": {
+  "hash": "762d0eacacb1",
+  "first_look": "2026-11-12",
+  "sharpe": 0.06246948106097732,
+  "looks": 1
+ },
+ "crypto.btc_trend_ensemble": {
+  "hash": "71f2a966b560",
+  "first_look": "2026-11-12",
+  "sharpe": -0.47081852568794896,
+  "looks": 1
+ },
+ "crypto.donchian_breakout": {
+  "hash": "6e0ee0f6f1a8",
+  "first_look": "2026-11-12",
+  "sharpe": 0.14885388478863856,
+  "looks": 1
+ },
+ "crypto.invvol_trend_basket": {
+  "hash": "8c4a00ec193a",
+  "first_look": "2026-11-12",
+  "sharpe": 0.008087744683457517,
+  "looks": 1
+ },
+ "crypto.st_reversal_uptrend": {
+  "hash": "53bd0d97e78a",
+  "first_look": "2026-11-12",
+  "sharpe": -0.3885221738476727,
+  "looks": 1
+ },
+ "crypto.xs_momentum_btc_regime": {
+  "hash": "625a71a59559",
+  "first_look": "2026-11-12",
+  "sharpe": 0.14709881678835532,
+  "looks": 1
+ }
+}

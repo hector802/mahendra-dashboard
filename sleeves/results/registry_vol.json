@@ -1,0 +1,558 @@
+{
+ "sleeve": "vol",
+ "trials": [
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "research",
+   "params": {
+    "threshold": 0.88,
+    "smooth": 1,
+    "target": 0.15
+   },
+   "sharpe": 0.4185,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "research",
+   "params": {
+    "threshold": 0.88,
+    "smooth": 3,
+    "target": 0.15
+   },
+   "sharpe": 0.4281,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "research",
+   "params": {
+    "threshold": 0.92,
+    "smooth": 1,
+    "target": 0.15
+   },
+   "sharpe": 0.6914,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "research",
+   "params": {
+    "threshold": 0.92,
+    "smooth": 3,
+    "target": 0.15
+   },
+   "sharpe": 0.8246,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "research",
+   "params": {
+    "threshold": 0.96,
+    "smooth": 1,
+    "target": 0.15
+   },
+   "sharpe": 0.6242,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "research",
+   "params": {
+    "threshold": 0.96,
+    "smooth": 3,
+    "target": 0.15
+   },
+   "sharpe": 0.623,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_spy_timing",
+   "phase": "research",
+   "params": {
+    "rv_window": 10,
+    "threshold": -2.0,
+    "smooth": 5
+   },
+   "sharpe": 0.9355,
+   "n": 4984
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_spy_timing",
+   "phase": "research",
+   "params": {
+    "rv_window": 10,
+    "threshold": 0.0,
+    "smooth": 5
+   },
+   "sharpe": 0.9548,
+   "n": 4984
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_spy_timing",
+   "phase": "research",
+   "params": {
+    "rv_window": 10,
+    "threshold": 2.0,
+    "smooth": 5
+   },
+   "sharpe": 0.6662,
+   "n": 4984
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_spy_timing",
+   "phase": "research",
+   "params": {
+    "rv_window": 21,
+    "threshold": -2.0,
+    "smooth": 5
+   },
+   "sharpe": 0.8343,
+   "n": 4973
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_spy_timing",
+   "phase": "research",
+   "params": {
+    "rv_window": 21,
+    "threshold": 0.0,
+    "smooth": 5
+   },
+   "sharpe": 0.7815,
+   "n": 4973
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_spy_timing",
+   "phase": "research",
+   "params": {
+    "rv_window": 21,
+    "threshold": 2.0,
+    "smooth": 5
+   },
+   "sharpe": 0.7401,
+   "n": 4973
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vix_spike_reversion",
+   "phase": "research",
+   "params": {
+    "z_entry": 1.5,
+    "hold": 10,
+    "off_peak": 0.1
+   },
+   "sharpe": 0.4139,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vix_spike_reversion",
+   "phase": "research",
+   "params": {
+    "z_entry": 1.5,
+    "hold": 20,
+    "off_peak": 0.1
+   },
+   "sharpe": 0.5939,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vix_spike_reversion",
+   "phase": "research",
+   "params": {
+    "z_entry": 2.0,
+    "hold": 10,
+    "off_peak": 0.1
+   },
+   "sharpe": 0.4878,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vix_spike_reversion",
+   "phase": "research",
+   "params": {
+    "z_entry": 2.0,
+    "hold": 20,
+    "off_peak": 0.1
+   },
+   "sharpe": 0.5736,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vix_spike_reversion",
+   "phase": "research",
+   "params": {
+    "z_entry": 2.5,
+    "hold": 10,
+    "off_peak": 0.1
+   },
+   "sharpe": 0.4727,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vix_spike_reversion",
+   "phase": "research",
+   "params": {
+    "z_entry": 2.5,
+    "hold": 20,
+    "off_peak": 0.1
+   },
+   "sharpe": 0.547,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vol_managed_spy",
+   "phase": "research",
+   "params": {
+    "window": 10,
+    "power": 1,
+    "ref_vol": 0.15
+   },
+   "sharpe": 0.7605,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vol_managed_spy",
+   "phase": "research",
+   "params": {
+    "window": 10,
+    "power": 2,
+    "ref_vol": 0.15
+   },
+   "sharpe": 0.7379,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vol_managed_spy",
+   "phase": "research",
+   "params": {
+    "window": 21,
+    "power": 1,
+    "ref_vol": 0.15
+   },
+   "sharpe": 0.769,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vol_managed_spy",
+   "phase": "research",
+   "params": {
+    "window": 21,
+    "power": 2,
+    "ref_vol": 0.15
+   },
+   "sharpe": 0.7757,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vol_managed_spy",
+   "phase": "research",
+   "params": {
+    "window": 42,
+    "power": 1,
+    "ref_vol": 0.15
+   },
+   "sharpe": 0.746,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vol_managed_spy",
+   "phase": "research",
+   "params": {
+    "window": 42,
+    "power": 2,
+    "ref_vol": 0.15
+   },
+   "sharpe": 0.7846,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_regime_hedge",
+   "phase": "research",
+   "params": {
+    "threshold": 0.95,
+    "vixy_frac": 0.0,
+    "smooth": 3
+   },
+   "sharpe": 0.504,
+   "n": 4610
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_regime_hedge",
+   "phase": "research",
+   "params": {
+    "threshold": 0.95,
+    "vixy_frac": 0.1,
+    "smooth": 3
+   },
+   "sharpe": 0.3956,
+   "n": 4610
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_regime_hedge",
+   "phase": "research",
+   "params": {
+    "threshold": 0.95,
+    "vixy_frac": 0.2,
+    "smooth": 3
+   },
+   "sharpe": 0.3035,
+   "n": 4610
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_regime_hedge",
+   "phase": "research",
+   "params": {
+    "threshold": 1.0,
+    "vixy_frac": 0.0,
+    "smooth": 3
+   },
+   "sharpe": 0.6695,
+   "n": 4610
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_regime_hedge",
+   "phase": "research",
+   "params": {
+    "threshold": 1.0,
+    "vixy_frac": 0.1,
+    "smooth": 3
+   },
+   "sharpe": 0.6521,
+   "n": 4610
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "ts_regime_hedge",
+   "phase": "research",
+   "params": {
+    "threshold": 1.0,
+    "vixy_frac": 0.2,
+    "smooth": 3
+   },
+   "sharpe": 0.6243,
+   "n": 4610
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "research",
+   "params": {
+    "ts_threshold": 0.92,
+    "vrp_threshold": 0.0,
+    "target": 0.15
+   },
+   "sharpe": 0.4903,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "research",
+   "params": {
+    "ts_threshold": 0.92,
+    "vrp_threshold": 2.0,
+    "target": 0.15
+   },
+   "sharpe": 0.2761,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "research",
+   "params": {
+    "ts_threshold": 0.95,
+    "vrp_threshold": 0.0,
+    "target": 0.15
+   },
+   "sharpe": 0.379,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "research",
+   "params": {
+    "ts_threshold": 0.95,
+    "vrp_threshold": 2.0,
+    "target": 0.15
+   },
+   "sharpe": 0.2438,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "research",
+   "params": {
+    "ts_threshold": 1.0,
+    "vrp_threshold": 0.0,
+    "target": 0.15
+   },
+   "sharpe": 0.4807,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:17+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "research",
+   "params": {
+    "ts_threshold": 1.0,
+    "vrp_threshold": 2.0,
+    "target": 0.15
+   },
+   "sharpe": 0.3533,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:48+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "research",
+   "params": {
+    "threshold": 0.92,
+    "smooth": 3,
+    "target": 0.15
+   },
+   "sharpe": 0.8246,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:48+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "research",
+   "params": {
+    "ts_threshold": 0.95,
+    "vrp_threshold": 2.0,
+    "target": 0.15
+   },
+   "sharpe": 0.2438,
+   "n": 4998
+  },
+  {
+   "ts": "2026-11-12T13:22:58+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "research",
+   "params": {
+    "threshold": 0.92,
+    "smooth": 3,
+    "target": 0.15
+   },
+   "sharpe": 0.7318,
+   "n": 3297
+  },
+  {
+   "ts": "2026-11-12T13:22:58+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "research",
+   "params": {
+    "ts_threshold": 0.95,
+    "vrp_threshold": 2.0,
+    "target": 0.15
+   },
+   "sharpe": 0.0005,
+   "n": 3297
+  },
+  {
+   "ts": "2026-11-12T13:25:05+00:00",
+   "strategy": "ts_carry_svxy",
+   "phase": "holdout",
+   "params": {
+    "threshold": 0.92,
+    "smooth": 3,
+    "target": 0.15
+   },
+   "sharpe": -0.4094,
+   "n": 504
+  },
+  {
+   "ts": "2026-11-12T13:25:06+00:00",
+   "strategy": "ts_regime_hedge",
+   "phase": "holdout",
+   "params": {
+    "threshold": 1.0,
+    "vixy_frac": 0.1,
+    "smooth": 3
+   },
+   "sharpe": 0.1689,
+   "n": 504
+  },
+  {
+   "ts": "2026-11-12T13:25:07+00:00",
+   "strategy": "vix_spike_reversion",
+   "phase": "holdout",
+   "params": {
+    "z_entry": 2.0,
+    "hold": 20,
+    "off_peak": 0.1
+   },
+   "sharpe": 0.8385,
+   "n": 504
+  },
+  {
+   "ts": "2026-11-12T13:25:07+00:00",
+   "strategy": "vol_managed_spy",
+   "phase": "holdout",
+   "params": {
+    "window": 21,
+    "power": 2,
+    "ref_vol": 0.15
+   },
+   "sharpe": 0.4421,
+   "n": 504
+  },
+  {
+   "ts": "2026-11-12T13:25:08+00:00",
+   "strategy": "vrp_carry_svxy",
+   "phase": "holdout",
+   "params": {
+    "ts_threshold": 0.95,
+    "vrp_threshold": 2.0,
+    "target": 0.15
+   },
+   "sharpe": -1.3703,
+   "n": 504
+  },
+  {
+   "ts": "2026-11-12T13:25:08+00:00",
+   "strategy": "vrp_spy_timing",
+   "phase": "holdout",
+   "params": {
+    "rv_window": 21,
+    "threshold": 0.0,
+    "smooth": 5
+   },
+   "sharpe": 0.2114,
+   "n": 504
+  }
+ ],
+ "postmortems": []
+}

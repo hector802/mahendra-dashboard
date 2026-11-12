@@ -1,0 +1,560 @@
+{
+ "sleeve": "macro",
+ "trials": [
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "short",
+    "freq": "W"
+   },
+   "sharpe": 0.336,
+   "n": 5644
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "short",
+    "freq": "M"
+   },
+   "sharpe": 0.2368,
+   "n": 5628
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "blend",
+    "freq": "W"
+   },
+   "sharpe": 0.486,
+   "n": 5515
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "blend",
+    "freq": "M"
+   },
+   "sharpe": 0.4304,
+   "n": 5502
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "long",
+    "freq": "W"
+   },
+   "sharpe": 0.46,
+   "n": 5515
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "long",
+    "freq": "M"
+   },
+   "sharpe": 0.3896,
+   "n": 5502
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "fx_trend",
+   "phase": "research",
+   "params": {
+    "signal": "ma",
+    "speed": "fast"
+   },
+   "sharpe": -0.0264,
+   "n": 5668
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "fx_trend",
+   "phase": "research",
+   "params": {
+    "signal": "ma",
+    "speed": "slow"
+   },
+   "sharpe": -0.0086,
+   "n": 5572
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "fx_trend",
+   "phase": "research",
+   "params": {
+    "signal": "ret",
+    "speed": "fast"
+   },
+   "sharpe": -0.262,
+   "n": 5704
+  },
+  {
+   "ts": "2026-11-12T13:22:19+00:00",
+   "strategy": "fx_trend",
+   "phase": "research",
+   "params": {
+    "signal": "ret",
+    "speed": "slow"
+   },
+   "sharpe": -0.0788,
+   "n": 5515
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "xasset_momentum_rank",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "k": 3
+   },
+   "sharpe": 0.2662,
+   "n": 5628
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "xasset_momentum_rank",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "k": 4
+   },
+   "sharpe": 0.2915,
+   "n": 5628
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "xasset_momentum_rank",
+   "phase": "research",
+   "params": {
+    "lookback": 252,
+    "k": 3
+   },
+   "sharpe": 0.2414,
+   "n": 5502
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "xasset_momentum_rank",
+   "phase": "research",
+   "params": {
+    "lookback": 252,
+    "k": 4
+   },
+   "sharpe": 0.3512,
+   "n": 5502
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "risk_parity_trend",
+   "phase": "research",
+   "params": {
+    "ma": 150
+   },
+   "sharpe": 0.7101,
+   "n": 5602
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "risk_parity_trend",
+   "phase": "research",
+   "params": {
+    "ma": 200
+   },
+   "sharpe": 0.7606,
+   "n": 5549
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "risk_parity_trend",
+   "phase": "research",
+   "params": {
+    "ma": 250
+   },
+   "sharpe": 0.7641,
+   "n": 5502
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "credit_regime_duration",
+   "phase": "research",
+   "params": {
+    "ma": 50
+   },
+   "sharpe": 0.2847,
+   "n": 5721
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "credit_regime_duration",
+   "phase": "research",
+   "params": {
+    "ma": 100
+   },
+   "sharpe": 0.4271,
+   "n": 5668
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "credit_regime_duration",
+   "phase": "research",
+   "params": {
+    "ma": 200
+   },
+   "sharpe": 0.348,
+   "n": 5572
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "gold_real_rates",
+   "phase": "research",
+   "params": {
+    "lookback": 42,
+    "proxy": "real"
+   },
+   "sharpe": 0.2023,
+   "n": 5721
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "gold_real_rates",
+   "phase": "research",
+   "params": {
+    "lookback": 42,
+    "proxy": "breakeven"
+   },
+   "sharpe": 0.2178,
+   "n": 5721
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "gold_real_rates",
+   "phase": "research",
+   "params": {
+    "lookback": 63,
+    "proxy": "real"
+   },
+   "sharpe": 0.2115,
+   "n": 5704
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "gold_real_rates",
+   "phase": "research",
+   "params": {
+    "lookback": 63,
+    "proxy": "breakeven"
+   },
+   "sharpe": -0.0841,
+   "n": 5704
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "gold_real_rates",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "proxy": "real"
+   },
+   "sharpe": 0.2454,
+   "n": 5644
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "gold_real_rates",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "proxy": "breakeven"
+   },
+   "sharpe": -0.5095,
+   "n": 5644
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "duration_momentum",
+   "phase": "research",
+   "params": {
+    "lookback": 63
+   },
+   "sharpe": 0.0741,
+   "n": 5704
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "duration_momentum",
+   "phase": "research",
+   "params": {
+    "lookback": 126
+   },
+   "sharpe": -0.1666,
+   "n": 5644
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "duration_momentum",
+   "phase": "research",
+   "params": {
+    "lookback": 252
+   },
+   "sharpe": -0.1963,
+   "n": 5515
+  },
+  {
+   "ts": "2026-11-12T13:22:55+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "short",
+    "freq": "W"
+   },
+   "sharpe": 0.3383,
+   "n": 5644
+  },
+  {
+   "ts": "2026-11-12T13:22:55+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "short",
+    "freq": "M"
+   },
+   "sharpe": 0.1467,
+   "n": 5628
+  },
+  {
+   "ts": "2026-11-12T13:22:55+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "blend",
+    "freq": "W"
+   },
+   "sharpe": 0.417,
+   "n": 5515
+  },
+  {
+   "ts": "2026-11-12T13:22:55+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "blend",
+    "freq": "M"
+   },
+   "sharpe": 0.3107,
+   "n": 5502
+  },
+  {
+   "ts": "2026-11-12T13:22:55+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "long",
+    "freq": "W"
+   },
+   "sharpe": 0.3616,
+   "n": 5515
+  },
+  {
+   "ts": "2026-11-12T13:22:55+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "long",
+    "freq": "M"
+   },
+   "sharpe": 0.2671,
+   "n": 5502
+  },
+  {
+   "ts": "2026-11-12T13:22:56+00:00",
+   "strategy": "duration_momentum",
+   "phase": "research",
+   "params": {
+    "lookback": 63
+   },
+   "sharpe": 0.4229,
+   "n": 5704
+  },
+  {
+   "ts": "2026-11-12T13:22:56+00:00",
+   "strategy": "duration_momentum",
+   "phase": "research",
+   "params": {
+    "lookback": 126
+   },
+   "sharpe": 0.0468,
+   "n": 5644
+  },
+  {
+   "ts": "2026-11-12T13:22:56+00:00",
+   "strategy": "duration_momentum",
+   "phase": "research",
+   "params": {
+    "lookback": 252
+   },
+   "sharpe": -0.0327,
+   "n": 5515
+  },
+  {
+   "ts": "2026-11-12T13:23:05+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "research",
+   "params": {
+    "lookbacks": "blend",
+    "freq": "W"
+   },
+   "sharpe": 0.486,
+   "n": 5515
+  },
+  {
+   "ts": "2026-11-12T13:23:05+00:00",
+   "strategy": "fx_trend",
+   "phase": "research",
+   "params": {
+    "signal": "ma",
+    "speed": "slow"
+   },
+   "sharpe": -0.0086,
+   "n": 5572
+  },
+  {
+   "ts": "2026-11-12T13:23:05+00:00",
+   "strategy": "xasset_momentum_rank",
+   "phase": "research",
+   "params": {
+    "lookback": 252,
+    "k": 3
+   },
+   "sharpe": 0.2414,
+   "n": 5502
+  },
+  {
+   "ts": "2026-11-12T13:23:05+00:00",
+   "strategy": "risk_parity_trend",
+   "phase": "research",
+   "params": {
+    "ma": 200
+   },
+   "sharpe": 0.7606,
+   "n": 5549
+  },
+  {
+   "ts": "2026-11-12T13:23:05+00:00",
+   "strategy": "credit_regime_duration",
+   "phase": "research",
+   "params": {
+    "ma": 100
+   },
+   "sharpe": 0.4271,
+   "n": 5668
+  },
+  {
+   "ts": "2026-11-12T13:23:05+00:00",
+   "strategy": "gold_real_rates",
+   "phase": "research",
+   "params": {
+    "lookback": 63,
+    "proxy": "real"
+   },
+   "sharpe": 0.2115,
+   "n": 5704
+  },
+  {
+   "ts": "2026-11-12T13:23:05+00:00",
+   "strategy": "duration_momentum",
+   "phase": "research",
+   "params": {
+    "lookback": 126
+   },
+   "sharpe": 0.0468,
+   "n": 5644
+  },
+  {
+   "ts": "2026-11-12T13:24:59+00:00",
+   "strategy": "credit_regime_duration",
+   "phase": "holdout",
+   "params": {
+    "ma": 100
+   },
+   "sharpe": -0.0247,
+   "n": 574
+  },
+  {
+   "ts": "2026-11-12T13:25:00+00:00",
+   "strategy": "duration_momentum",
+   "phase": "holdout",
+   "params": {
+    "lookback": 126
+   },
+   "sharpe": -0.1639,
+   "n": 574
+  },
+  {
+   "ts": "2026-11-12T13:25:01+00:00",
+   "strategy": "fx_trend",
+   "phase": "holdout",
+   "params": {
+    "signal": "ma",
+    "speed": "slow"
+   },
+   "sharpe": -0.0675,
+   "n": 574
+  },
+  {
+   "ts": "2026-11-12T13:25:02+00:00",
+   "strategy": "gold_real_rates",
+   "phase": "holdout",
+   "params": {
+    "lookback": 63,
+    "proxy": "real"
+   },
+   "sharpe": 0.8307,
+   "n": 574
+  },
+  {
+   "ts": "2026-11-12T13:25:03+00:00",
+   "strategy": "risk_parity_trend",
+   "phase": "holdout",
+   "params": {
+    "ma": 200
+   },
+   "sharpe": 0.7434,
+   "n": 574
+  },
+  {
+   "ts": "2026-11-12T13:25:04+00:00",
+   "strategy": "ts_trend_multi",
+   "phase": "holdout",
+   "params": {
+    "lookbacks": "blend",
+    "freq": "W"
+   },
+   "sharpe": 0.426,
+   "n": 574
+  },
+  {
+   "ts": "2026-11-12T13:25:05+00:00",
+   "strategy": "xasset_momentum_rank",
+   "phase": "holdout",
+   "params": {
+    "lookback": 252,
+    "k": 3
+   },
+   "sharpe": 0.4481,
+   "n": 574
+  }
+ ],
+ "postmortems": []
+}

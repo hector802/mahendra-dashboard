@@ -1,0 +1,454 @@
+{
+ "sleeve": "equity",
+ "trials": [
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "spy_trend_benchmark",
+   "phase": "research",
+   "params": {
+    "window": 150
+   },
+   "sharpe": 0.5021,
+   "n": 4848
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "spy_trend_benchmark",
+   "phase": "research",
+   "params": {
+    "window": 200
+   },
+   "sharpe": 0.6651,
+   "n": 4796
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "spy_trend_benchmark",
+   "phase": "research",
+   "params": {
+    "window": 250
+   },
+   "sharpe": 0.7103,
+   "n": 4748
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "sector_momentum_12_1",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "skip": 21,
+    "n": 2
+   },
+   "sharpe": -0.0066,
+   "n": 4852
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "sector_momentum_12_1",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "skip": 21,
+    "n": 3
+   },
+   "sharpe": 0.0362,
+   "n": 4852
+  },
+  {
+   "ts": "2026-11-12T13:22:20+00:00",
+   "strategy": "sector_momentum_12_1",
+   "phase": "research",
+   "params": {
+    "lookback": 252,
+    "skip": 21,
+    "n": 2
+   },
+   "sharpe": 0.0096,
+   "n": 4745
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_momentum_12_1",
+   "phase": "research",
+   "params": {
+    "lookback": 252,
+    "skip": 21,
+    "n": 3
+   },
+   "sharpe": 0.0482,
+   "n": 4745
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "dual_momentum_regions",
+   "phase": "research",
+   "params": {
+    "lookback": 126
+   },
+   "sharpe": 0.5359,
+   "n": 4852
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "dual_momentum_regions",
+   "phase": "research",
+   "params": {
+    "lookback": 189
+   },
+   "sharpe": 0.3702,
+   "n": 4808
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "dual_momentum_regions",
+   "phase": "research",
+   "params": {
+    "lookback": 252
+   },
+   "sharpe": 0.5927,
+   "n": 4745
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_short_reversal",
+   "phase": "research",
+   "params": {
+    "lookback": 5,
+    "n": 2
+   },
+   "sharpe": -0.7184,
+   "n": 4992
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_short_reversal",
+   "phase": "research",
+   "params": {
+    "lookback": 5,
+    "n": 3
+   },
+   "sharpe": -0.7483,
+   "n": 4992
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_short_reversal",
+   "phase": "research",
+   "params": {
+    "lookback": 21,
+    "n": 2
+   },
+   "sharpe": -0.4458,
+   "n": 4973
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_short_reversal",
+   "phase": "research",
+   "params": {
+    "lookback": 21,
+    "n": 3
+   },
+   "sharpe": -0.5329,
+   "n": 4973
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_low_vol_bab",
+   "phase": "research",
+   "params": {
+    "window": 126,
+    "n": 2
+   },
+   "sharpe": 0.4496,
+   "n": 4915
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_low_vol_bab",
+   "phase": "research",
+   "params": {
+    "window": 126,
+    "n": 3
+   },
+   "sharpe": 0.5296,
+   "n": 4915
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_low_vol_bab",
+   "phase": "research",
+   "params": {
+    "window": 252,
+    "n": 2
+   },
+   "sharpe": 0.4491,
+   "n": 4852
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "sector_low_vol_bab",
+   "phase": "research",
+   "params": {
+    "window": 252,
+    "n": 3
+   },
+   "sharpe": 0.3679,
+   "n": 4852
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "factor_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 63,
+    "n": 1
+   },
+   "sharpe": 0.0332,
+   "n": 2838
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "factor_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 63,
+    "n": 2
+   },
+   "sharpe": -0.258,
+   "n": 2838
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "factor_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "n": 1
+   },
+   "sharpe": -0.1786,
+   "n": 2773
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "factor_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "n": 2
+   },
+   "sharpe": -0.1821,
+   "n": 2773
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "factor_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 252,
+    "n": 1
+   },
+   "sharpe": -0.0596,
+   "n": 2650
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "factor_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "lookback": 252,
+    "n": 2
+   },
+   "sharpe": -0.0706,
+   "n": 2650
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "breadth_risk_switch",
+   "phase": "research",
+   "params": {
+    "window": 150,
+    "threshold": 0.4
+   },
+   "sharpe": 0.6162,
+   "n": 4847
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "breadth_risk_switch",
+   "phase": "research",
+   "params": {
+    "window": 150,
+    "threshold": 0.5
+   },
+   "sharpe": 0.5064,
+   "n": 4847
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "breadth_risk_switch",
+   "phase": "research",
+   "params": {
+    "window": 150,
+    "threshold": 0.6
+   },
+   "sharpe": 0.3275,
+   "n": 4847
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "breadth_risk_switch",
+   "phase": "research",
+   "params": {
+    "window": 200,
+    "threshold": 0.4
+   },
+   "sharpe": 0.5967,
+   "n": 4798
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "breadth_risk_switch",
+   "phase": "research",
+   "params": {
+    "window": 200,
+    "threshold": 0.5
+   },
+   "sharpe": 0.6016,
+   "n": 4793
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "breadth_risk_switch",
+   "phase": "research",
+   "params": {
+    "window": 200,
+    "threshold": 0.6
+   },
+   "sharpe": 0.6032,
+   "n": 4783
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "index_tsmom",
+   "phase": "research",
+   "params": {
+    "lookback": 63,
+    "vol_window": 63
+   },
+   "sharpe": 0.1866,
+   "n": 4915
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "index_tsmom",
+   "phase": "research",
+   "params": {
+    "lookback": 126,
+    "vol_window": 63
+   },
+   "sharpe": 0.3014,
+   "n": 4852
+  },
+  {
+   "ts": "2026-11-12T13:22:21+00:00",
+   "strategy": "index_tsmom",
+   "phase": "research",
+   "params": {
+    "lookback": 252,
+    "vol_window": 63
+   },
+   "sharpe": 0.4131,
+   "n": 4745
+  },
+  {
+   "ts": "2026-11-12T13:24:54+00:00",
+   "strategy": "breadth_risk_switch",
+   "phase": "holdout",
+   "params": {
+    "window": 200,
+    "threshold": 0.5
+   },
+   "sharpe": 0.5321,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-12T13:24:55+00:00",
+   "strategy": "dual_momentum_regions",
+   "phase": "holdout",
+   "params": {
+    "lookback": 252
+   },
+   "sharpe": 0.5409,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-12T13:24:55+00:00",
+   "strategy": "factor_momentum_rotation",
+   "phase": "holdout",
+   "params": {
+    "lookback": 126,
+    "n": 1
+   },
+   "sharpe": 1.0305,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-12T13:24:56+00:00",
+   "strategy": "index_tsmom",
+   "phase": "holdout",
+   "params": {
+    "lookback": 252,
+    "vol_window": 63
+   },
+   "sharpe": 0.585,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-12T13:24:57+00:00",
+   "strategy": "sector_low_vol_bab",
+   "phase": "holdout",
+   "params": {
+    "window": 252,
+    "n": 3
+   },
+   "sharpe": 0.2761,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-12T13:24:57+00:00",
+   "strategy": "sector_momentum_12_1",
+   "phase": "holdout",
+   "params": {
+    "lookback": 252,
+    "skip": 21,
+    "n": 3
+   },
+   "sharpe": 0.6545,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-12T13:24:58+00:00",
+   "strategy": "sector_short_reversal",
+   "phase": "holdout",
+   "params": {
+    "lookback": 5,
+    "n": 2
+   },
+   "sharpe": -0.3087,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-12T13:24:59+00:00",
+   "strategy": "spy_trend_benchmark",
+   "phase": "holdout",
+   "params": {
+    "window": 200
+   },
+   "sharpe": 0.3998,
+   "n": 502
+  }
+ ],
+ "postmortems": []
+}
