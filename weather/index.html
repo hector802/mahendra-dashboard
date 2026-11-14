@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Weather, Unfortunately</title>
+<meta name="description" content="A proper weather forecast, performed daily by a troupe of thoroughly unreliable British presenters.">
+<meta name="theme-color" content="#14110f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M12 30h18a7 7 0 0 0 0-14 10 10 0 0 0-19-2 7.5 7.5 0 0 0 1 16z' fill='%23c9a659'/%3E%3Cpath d='M8 30h26' stroke='%2314110f' stroke-width='0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Limelight&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">☂</span>
+    <div>
+      <h1>The Weather, <em>Unfortunately</em></h1>
+      <p class="tagline">Britain's least reliable forecast, delivered by its most unreliable people.</p>
+    </div>
+  </div>
+  <div class="tools">
+    <div class="search">
+      <input id="search" type="search" placeholder="Search for a town…" autocomplete="off" aria-label="Search for a place">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <button id="locateBtn" class="btn icon" title="Use my location" aria-label="Use my location">
+      <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+    <div class="units" role="group" aria-label="Temperature units">
+      <button class="btn seg" data-unit="C">°C</button><button class="btn seg" data-unit="F">°F</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="theatre" id="theatre" aria-label="Today's weather film">
+    <div class="marquee">
+      <div>
+        <span class="now-showing">Now showing in <b id="placeName">London</b></span>
+        <h2 id="epTitle">Episode —</h2>
+      </div>
+      <span id="epDate" class="ep-date"></span>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="sky" id="sky"></div>
+      <canvas id="fxBack" class="fx"></canvas>
+      <svg id="backdrop" class="layer" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+      <svg id="actors" class="layer" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+      <canvas id="fxFront" class="fx"></canvas>
+      <div class="film-grain" aria-hidden="true"></div>
+      <div class="flash" id="flash" aria-hidden="true"></div>
+      <div class="caption" id="caption" aria-live="polite"></div>
+      <div class="titlecard" id="titlecard"></div>
+      <button class="poster show" id="poster" aria-label="Play today's film">
+        <span class="poster-play"><svg viewBox="0 0 24 24" width="44" height="44"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg></span>
+        <span class="poster-label">Roll film</span>
+        <span class="poster-sub">Today's forecast, performed</span>
+      </button>
+      <div class="loading-card">Consulting the seaweed…</div>
+    </div>
+
+    <div class="caption-below" id="captionBelow" aria-hidden="true"></div>
+
+    <div class="controls">
+      <button id="restartBtn" class="btn icon" title="From the top" aria-label="Restart">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 4v6h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10A7.5 7.5 0 1 1 6 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+      <button id="prevBtn" class="btn icon" title="Previous line" aria-label="Previous line">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 5v14M19 5L9 12l10 7z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="playBtn" class="btn icon play" aria-label="Play"></button>
+      <button id="nextBtn" class="btn icon" title="Next line" aria-label="Next line">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M18 5v14M5 5l10 7-10 7z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="progress" id="progress"><span></span></div>
+      <button id="voiceBtn" class="btn icon toggle" aria-label="Voices" aria-pressed="false">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="waves" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button id="ccBtn" class="btn icon toggle" title="Subtitles" aria-label="Subtitles" aria-pressed="true">
+        <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 10.5a2 2 0 1 0 0 3M17 10.5a2 2 0 1 0 0 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button id="fullBtn" class="btn icon" title="Full screen" aria-label="Full screen">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="below-stage">
+      <ul class="castlist" id="castlist"></ul>
+      <button id="retakeBtn" class="btn ghost">Demand a retake</button>
+    </div>
+    <p id="demoNote" class="demo-note" hidden>Live weather couldn't be reached, so you're watching a <em>dramatic reconstruction</em> with made-up numbers. Try again in a moment.</p>
+  </section>
+
+  <section class="useful" aria-labelledby="usefulHead">
+    <h2 id="usefulHead" class="section-head">The Boring But Useful Bit <small>for people who just want the numbers</small></h2>
+
+    <div class="grid">
+      <article class="card now" id="now"></article>
+
+      <article class="card advice-card">
+        <h3>What to do about it</h3>
+        <ul id="advice" class="advice"></ul>
+      </article>
+
+      <article class="card hourly-card">
+        <h3>Next 24 hours</h3>
+        <ul id="hourly" class="hourly"></ul>
+      </article>
+
+      <article class="card week-card">
+        <h3>The week ahead</h3>
+        <ul id="week" class="week"></ul>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Weather data by <a href="https://open-meteo.com/" rel="noopener">Open-Meteo</a>. A new film every day; the cast changes, the sky does what it likes.</p>
+  <p class="small">All characters are fictitious. Any resemblance to competent forecasters, living or dead, is purely coincidental.</p>
+</footer>
+
+<script src="characters.js"></script>
+<script src="scripts.js"></script>
+<script src="stage.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
