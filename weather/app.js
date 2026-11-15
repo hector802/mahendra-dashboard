@@ -86,6 +86,23 @@
   const GAGS = ['fish', 'sheep', 'shake', 'lights', 'weasels', 'trousers'];
   if (REEL) document.body.classList.add('reel');
 
+  /* ---------------- tone: 'rude' (cheeky, default) or 'clean' ---------------- */
+  const CLEAN = { OPENINGS, SIDEKICK_INTROS, CONDITIONS, TEMP_QUIPS, INTERRUPTIONS, GUESTS, DETAILS, ADVICE, CLOSINGS, PANEL_QUIPS };
+  function pack() {
+    if (state.tone !== 'rude' || typeof RUDE === 'undefined') return CLEAN;
+    const merged = {};
+    for (const k of Object.keys(CLEAN)) merged[k] = RUDE[k] || CLEAN[k];
+    merged.CONDITIONS = { ...CLEAN.CONDITIONS, ...RUDE.CONDITIONS };
+    merged.ADVICE = { ...CLEAN.ADVICE, ...RUDE.ADVICE };
+    merged.PANEL_QUIPS = { ...CLEAN.PANEL_QUIPS, ...RUDE.PANEL_QUIPS };
+    merged.GUESTS = {};
+    for (const id of Object.keys(CLEAN.GUESTS)) {
+      const r = RUDE.GUESTS[id] || {};
+      merged.GUESTS[id] = { ...CLEAN.GUESTS[id], lines: { ...CLEAN.GUESTS[id].lines, ...(r.lines || {}) }, retort: r.retort || CLEAN.GUESTS[id].retort };
+    }
+    return merged;
+  }
+
   /* ---------------- state ---------------- */
   const state = {
     place: store.get('twu.place', { name: 'London', admin: 'England', lat: 51.5074, lon: -0.1278 }),
@@ -94,6 +111,7 @@
     speed: store.get('twu.speed', 1),
     cc: store.get('twu.cc', true),
     take: +params.get('take') || 0,
+    tone: params.get('tone') || store.get('twu.tone', 'rude'),
     data: null,
     demo: false,
   };
@@ -198,6 +216,7 @@
 
   function writeFilm(wx, place) {
     const ep = episodeNumber();
+    const L = pack();
     const seedFn = hashStr(`${todayKey()}|${state.take}|${place.name}`);
     const rng = mulberry32(seedFn());
 
@@ -235,17 +254,17 @@
     const add = (who, text, action) => lines.push({ who, text: fill(text), action });
     const addBlock = (block) => block.forEach(([who, text, action]) => add(who, text, action));
 
-    const g = GUESTS[guestId];
+    const g = L.GUESTS[guestId];
     let gCat = wx.cat;
     if (wx.windy && ['clear', 'cloudy', 'night'].includes(gCat)) gCat = 'wind';
     const gag = OPT.gag === 'none' ? null
-      : GAGS.includes(OPT.gag) ? INTERRUPTIONS[GAGS.indexOf(OPT.gag)]
-      : (rng() < 0.55 ? pick(rng, INTERRUPTIONS) : null);
+      : GAGS.includes(OPT.gag) ? L.INTERRUPTIONS[GAGS.indexOf(OPT.gag)]
+      : (rng() < 0.55 ? pick(rng, L.INTERRUPTIONS) : null);
 
     if (REEL) {
       // The short cut: straight into the joke, one guest, one gag, out.
-      addBlock(pick(rng, CONDITIONS[wx.cat] || CONDITIONS.cloudy));
-      add('H', `As for the temperature: ${pick(rng, TEMP_QUIPS[wx.band])}`);
+      addBlock(pick(rng, L.CONDITIONS[wx.cat] || L.CONDITIONS.cloudy));
+      add('H', `As for the temperature: ${pick(rng, L.TEMP_QUIPS[wx.band])}`);
       if (gag) addBlock(gag);
       add('N', pick(rng, g.enter), 'enter');
       add('G', g.lines[gCat] || g.lines[wx.baseCat] || g.lines.cloudy);
@@ -253,18 +272,18 @@
       add('H', ask);
       add('G', answer);
       add('N', `[Exit ${guest.short.toUpperCase()}]`, 'exit');
-      add('H', pick(rng, ADVICE[adviceKeys(wx)[0]]));
-      addBlock(pick(rng, CLOSINGS.filter(b => b.length <= 3)));
+      add('H', pick(rng, L.ADVICE[adviceKeys(wx)[0]]));
+      addBlock(pick(rng, L.CLOSINGS.filter(b => b.length <= 3)));
       return { ep, title, setting, host, side, guest, lines, credit: pick(rng, CREDITS_JOKES) };
     }
 
     // 1. Opening & sidekick
-    addBlock(pick(rng, OPENINGS));
-    addBlock(pick(rng, SIDEKICK_INTROS));
+    addBlock(pick(rng, L.OPENINGS));
+    addBlock(pick(rng, L.SIDEKICK_INTROS));
 
     // 2. Conditions + temperature
-    addBlock(pick(rng, CONDITIONS[wx.cat] || CONDITIONS.cloudy));
-    add('H', `As for the temperature: ${pick(rng, TEMP_QUIPS[wx.band])}`);
+    addBlock(pick(rng, L.CONDITIONS[wx.cat] || L.CONDITIONS.cloudy));
+    add('H', `As for the temperature: ${pick(rng, L.TEMP_QUIPS[wx.band])}`);
 
     // 3. Something absurd happens (about half the time)
     if (gag) addBlock(gag);
@@ -279,7 +298,7 @@
     add('N', `[Exit ${guest.short.toUpperCase()}]`, 'exit');
 
     // 5. The numbers
-    addBlock(pick(rng, DETAILS));
+    addBlock(pick(rng, L.DETAILS));
 
     // 6. Tomorrow and the week
     add('H', pick(rng, TOMORROW));
@@ -287,10 +306,10 @@
 
     // 7. Genuinely useful advice (the bit people actually need)
     const advice = adviceKeys(wx);
-    advice.slice(0, 2).forEach((k) => add('H', pick(rng, ADVICE[k])));
+    advice.slice(0, 2).forEach((k) => add('H', pick(rng, L.ADVICE[k])));
 
     // 8. Goodnight
-    addBlock(pick(rng, CLOSINGS));
+    addBlock(pick(rng, L.CLOSINGS));
 
     return {
       ep, title, setting, host, side, guest, lines,
@@ -536,7 +555,7 @@
           <div class="now-temp">${fmtNum(wx.temp)}<span>°${state.unit}</span></div>
         </div>
         <div class="now-label">${label}</div>
-        <div class="now-quip">${escapeXML(pick(rng, PANEL_QUIPS[quipCat] || PANEL_QUIPS.cloudy))}</div>
+        <div class="now-quip">${escapeXML(pick(rng, pack().PANEL_QUIPS[quipCat] || PANEL_QUIPS.cloudy))}</div>
         <div class="now-hilo">High ${fmtT(wx.hi)} · Low ${fmtT(wx.lo)} · Feels like ${fmtT(wx.feels)}</div>
       </div>
       <dl class="now-stats">
@@ -681,6 +700,7 @@
     $('#ccBtn').setAttribute('aria-pressed', state.cc);
     stage.classList.toggle('no-cc', !state.cc);
     document.querySelectorAll('[data-unit]').forEach(b => b.setAttribute('aria-pressed', b.dataset.unit === state.unit));
+    document.querySelectorAll('[data-tone]').forEach(b => b.setAttribute('aria-pressed', b.dataset.tone === state.tone));
   }
   $('#voiceBtn').addEventListener('click', (e) => {
     e.stopPropagation();
@@ -748,6 +768,11 @@
   document.querySelectorAll('[data-unit]').forEach(b => b.addEventListener('click', () => {
     if (state.unit === b.dataset.unit) return;
     state.unit = b.dataset.unit; store.set('twu.unit', state.unit); syncToggles();
+    if (state.data) { const wasPlaying = player.playing; rebuild(false); if (wasPlaying) restart(); }
+  }));
+  document.querySelectorAll('[data-tone]').forEach(b => b.addEventListener('click', () => {
+    if (state.tone === b.dataset.tone) return;
+    state.tone = b.dataset.tone; store.set('twu.tone', state.tone); syncToggles();
     if (state.data) { const wasPlaying = player.playing; rebuild(false); if (wasPlaying) restart(); }
   }));
   $('#fullBtn').addEventListener('click', () => {

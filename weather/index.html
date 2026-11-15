@@ -30,6 +30,9 @@
     <button id="locateBtn" class="btn icon" title="Use my location" aria-label="Use my location">
       <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
     </button>
+    <div class="units" role="group" aria-label="Tone">
+      <button class="btn seg" data-tone="rude" title="After the watershed: mild swearing and innuendo">Cheeky</button><button class="btn seg" data-tone="clean" title="Family-friendly">Clean</button>
+    </div>
     <div class="units" role="group" aria-label="Temperature units">
       <button class="btn seg" data-unit="C">°C</button><button class="btn seg" data-unit="F">°F</button>
     </div>
@@ -131,6 +134,7 @@
 
 <script src="characters.js"></script>
 <script src="scripts.js"></script>
+<script src="scripts-rude.js"></script>
 <script src="stage.js"></script>
 <script src="voices.js"></script>
 <script src="app.js"></script>
