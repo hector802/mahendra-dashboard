@@ -369,3 +369,39 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 16px 40px; }
   .bob, .talking .bob, .cloud, .film-grain, .wave, .flag, .fire, .sun, .star { animation: none !important; }
   .slot { transition-duration: .01s; }
 }
+
+/* ---------- Reel mode (?reel): vertical 9:16 for Instagram / TikTok ---------- */
+.reel-head, .reel-foot { display: none; }
+body.reel { overflow: hidden; background: #1a0f11; }
+body.reel .top, body.reel .marquee, body.reel .controls, body.reel .below-stage, body.reel .demo-note,
+body.reel .useful, body.reel .foot, body.reel .poster, body.reel .stage .caption, body.reel .tc-actions { display: none !important; }
+body.reel main { padding: 0; max-width: none; }
+body.reel .theatre {
+  height: 100vh; border: 0; border-radius: 0; padding: 0; display: flex; flex-direction: column;
+  background: radial-gradient(120% 60% at 50% 0%, #3a1a20 0%, #1a0f11 60%);
+}
+body.reel .reel-head { display: block; flex: none; text-align: center; padding: 4.5vh 6vw 2.4vh; }
+.rh-show { font: 400 7vw/1.05 Limelight, serif; color: var(--cream); }
+.rh-show em { font-style: normal; color: var(--brass); }
+.rh-ep { font: italic 400 4.4vw/1.2 'Playfair Display', serif; color: var(--cream-dim); margin-top: .8vh; }
+.rh-wx { display: inline-flex; align-items: center; gap: 2.4vw; margin-top: 1.6vh; padding: 1.2vh 4vw; border: 2px solid var(--brass); border-radius: 999px; background: rgba(0,0,0,.25); }
+.rh-wx .wx-icon { width: 10vw; height: 10vw; }
+.rh-temp { font: 400 9vw/1 Limelight, serif; }
+.rh-label { text-align: left; font-weight: 600; font-size: 4.2vw; line-height: 1.15; }
+.rh-label small { display: block; font-weight: 400; color: var(--muted); font-size: 3.4vw; }
+body.reel .stage { flex: none; width: 100vw; aspect-ratio: 4 / 3; border-radius: 0; box-shadow: 0 -3px 0 var(--brass), 0 3px 0 var(--brass); }
+body.reel .tc-show { font-size: 7vw; }
+body.reel .tc-title { font-size: 4.4vw; }
+body.reel .tc-cast, body.reel .tc-ep { font-size: 2.6vw; }
+body.reel .tc-loc { font-size: 2.3vw; }
+body.reel .caption-below {
+  display: block !important; flex: 1 1 0; padding: 3vh 6vw 0; text-align: center;
+  font-size: 5.2vw; line-height: 1.32; font-weight: 500; min-height: 0; overflow: hidden;
+}
+body.reel .caption-below .who {
+  display: table; margin: 0 auto 1.6vh; padding: .3vh 2.6vw; border-radius: 6px; background: var(--brass); color: var(--ink);
+  font-weight: 700; font-size: 3.4vw; letter-spacing: .3vw; text-transform: uppercase;
+}
+body.reel .caption-below.direction .txt { font-style: italic; color: var(--brass-hi); font-family: 'Playfair Display', serif; }
+body.reel .reel-foot { display: block; flex: none; text-align: center; padding: 1.2vh 6vw 4.5vh; color: var(--cream-dim); font-size: 3.4vw; }
+body.reel .reel-foot b { display: block; color: var(--brass-hi); font: 400 4.4vw Limelight, serif; }

@@ -68,6 +68,24 @@
     return `<svg class="wx-icon" width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true">${body}</svg>`;
   }
 
+  /* ---------------- URL options (used for Reels and experiments) ----------------
+     ?reel           vertical 9:16 short cut for Instagram/TikTok
+     ?cast=h,s,g     force host, sidekick and guest (e.g. drench,wilf,edna)
+     ?setting=pier   force the set (studio, castle, field, ministry, pier, parlour)
+     ?gag=fish       force an interruption (fish, sheep, shake, lights, weasels, trousers, none)
+     ?take=3         pick a different take of the jokes
+     ?place=Britain  override the place name used in the script            */
+  const params = new URLSearchParams(location.search);
+  const REEL = params.has('reel');
+  const OPT = {
+    cast: (params.get('cast') || '').split(',').map(x => x.trim()).filter(id => CAST[id]),
+    setting: SETTINGS.find(x => x.id === params.get('setting')),
+    gag: params.get('gag'),
+    place: params.get('place'),
+  };
+  const GAGS = ['fish', 'sheep', 'shake', 'lights', 'weasels', 'trousers'];
+  if (REEL) document.body.classList.add('reel');
+
   /* ---------------- state ---------------- */
   const state = {
     place: store.get('twu.place', { name: 'London', admin: 'England', lat: 51.5074, lon: -0.1278 }),
@@ -75,7 +93,7 @@
     voice: store.get('twu.voice', false),
     speed: store.get('twu.speed', 1),
     cc: store.get('twu.cc', true),
-    take: 0,
+    take: +params.get('take') || 0,
     data: null,
     demo: false,
   };
@@ -183,11 +201,11 @@
     const seedFn = hashStr(`${todayKey()}|${state.take}|${place.name}`);
     const rng = mulberry32(seedFn());
 
-    const hostId = ep % 2 ? 'drench' : 'arabella';
-    const sideId = pick(rng, ['wilf', 'captain']);
-    const guestPool = ['nimbus', 'edna', 'smethwick', 'captain', hostId === 'drench' ? 'arabella' : 'drench'].filter(g => g !== sideId);
-    const guestId = pick(rng, guestPool);
-    const setting = pick(rng, SETTINGS);
+    const hostId = OPT.cast[0] || (ep % 2 ? 'drench' : 'arabella');
+    const sideId = OPT.cast[1] || pick(rng, ['wilf', 'captain']);
+    const guestPool = ['nimbus', 'edna', 'smethwick', 'captain', 'arabella', 'drench'].filter(g => g !== sideId && g !== hostId);
+    const guestId = OPT.cast[2] || pick(rng, guestPool);
+    const setting = OPT.setting || pick(rng, SETTINGS);
     const host = CAST[hostId], side = CAST[sideId], guest = CAST[guestId];
 
     const titleCat = wx.cat;
@@ -217,6 +235,29 @@
     const add = (who, text, action) => lines.push({ who, text: fill(text), action });
     const addBlock = (block) => block.forEach(([who, text, action]) => add(who, text, action));
 
+    const g = GUESTS[guestId];
+    let gCat = wx.cat;
+    if (wx.windy && ['clear', 'cloudy', 'night'].includes(gCat)) gCat = 'wind';
+    const gag = OPT.gag === 'none' ? null
+      : GAGS.includes(OPT.gag) ? INTERRUPTIONS[GAGS.indexOf(OPT.gag)]
+      : (rng() < 0.55 ? pick(rng, INTERRUPTIONS) : null);
+
+    if (REEL) {
+      // The short cut: straight into the joke, one guest, one gag, out.
+      addBlock(pick(rng, CONDITIONS[wx.cat] || CONDITIONS.cloudy));
+      add('H', `As for the temperature: ${pick(rng, TEMP_QUIPS[wx.band])}`);
+      if (gag) addBlock(gag);
+      add('N', pick(rng, g.enter), 'enter');
+      add('G', g.lines[gCat] || g.lines[wx.baseCat] || g.lines.cloudy);
+      const [ask, answer] = pick(rng, g.retort).split('|');
+      add('H', ask);
+      add('G', answer);
+      add('N', `[Exit ${guest.short.toUpperCase()}]`, 'exit');
+      add('H', pick(rng, ADVICE[adviceKeys(wx)[0]]));
+      addBlock(pick(rng, CLOSINGS.filter(b => b.length <= 3)));
+      return { ep, title, setting, host, side, guest, lines, credit: pick(rng, CREDITS_JOKES) };
+    }
+
     // 1. Opening & sidekick
     addBlock(pick(rng, OPENINGS));
     addBlock(pick(rng, SIDEKICK_INTROS));
@@ -226,12 +267,9 @@
     add('H', `As for the temperature: ${pick(rng, TEMP_QUIPS[wx.band])}`);
 
     // 3. Something absurd happens (about half the time)
-    if (rng() < 0.55) addBlock(pick(rng, INTERRUPTIONS));
+    if (gag) addBlock(gag);
 
     // 4. The guest
-    const g = GUESTS[guestId];
-    let gCat = wx.cat;
-    if (wx.windy && ['clear', 'cloudy', 'night'].includes(gCat)) gCat = 'wind';
     add('N', pick(rng, g.enter), 'enter');
     add('H', pick(rng, g.intro));
     add('G', g.lines[gCat] || g.lines[wx.baseCat] || g.lines.cloudy);
@@ -278,7 +316,7 @@
   const fx = new WeatherFX($('#fxBack'), $('#fxFront'));
   fx.onLightning = () => flash();
 
-  const SLOT_X = { H: 170, S: 640, G: 1100 };
+  const SLOT_X = REEL ? { H: 290, S: 650, G: 1010 } : { H: 170, S: 640, G: 1100 };
   const OFFSTAGE = 1800;
   const SLOT_Y = 330;
 
@@ -372,6 +410,11 @@
     cap.classList.add('show');
     below.className = 'caption-below' + (line.who === 'N' ? ' direction' : '');
     below.innerHTML = cap.innerHTML;
+    if (REEL) { // shrink long lines until they fit their box
+      below.style.fontSize = '';
+      let size = parseFloat(getComputedStyle(below).fontSize);
+      while (below.scrollHeight > below.clientHeight + 2 && size > 18) { size -= 2; below.style.fontSize = size + 'px'; }
+    }
   }
 
   function clearTalking() {
@@ -405,7 +448,7 @@
       setCaption(null);
       showTitleCard(player.film, state.wx);
       updateProgress();
-      if (player.playing) player.timer = setTimeout(() => tok === player.token && playLine(0), 5200);
+      if (player.playing) player.timer = setTimeout(() => tok === player.token && playLine(0), REEL ? 3000 : 5200);
       return;
     }
     if (i >= lines.length) { // credits
@@ -432,7 +475,7 @@
     }
 
     const next = () => { if (tok !== player.token) return; clearTalking(); player.timer = setTimeout(() => tok === player.token && playLine(i + 1), line.who === 'N' ? 250 : 450); };
-    const readMs = line.who === 'N' ? 2400 : Math.max(2000, line.text.length * 58);
+    const readMs = line.who === 'N' ? (REEL ? 1900 : 2400) : Math.max(REEL ? 1700 : 2000, line.text.length * (REEL ? 52 : 58));
 
     if (state.voice && c && VoiceBox.supported) {
       // Mouth moves only while words are actually coming out.
@@ -555,8 +598,18 @@
         <div><span class="cast-role">${role}</span><b>${c.name}</b><small>${c.title}</small></div></li>`).join('');
   }
 
+  function renderReelChrome(film, wx) {
+    const [label] = describe(wx.code);
+    $('#reelHead').innerHTML = `
+      <div class="rh-show">The Weather, <em>Unfortunately</em></div>
+      <div class="rh-ep">“${escapeXML(film.title)}”</div>
+      <div class="rh-wx">${icon(wx.code, wx.isDay, 64)}<span class="rh-temp">${fmtT(wx.temp)}</span><span class="rh-label">${label}<small>${escapeXML(state.place.name)}</small></span></div>`;
+    $('#reelFoot').innerHTML = `<b>A new episode every day</b>`;
+  }
+
   /* ---------------- putting it all together ---------------- */
   async function load() {
+    if (OPT.place) state.place = { ...state.place, name: OPT.place, admin: '', country: '' };
     const place = state.place;
     $('#placeName').textContent = place.name;
     stage.classList.add('loading');
@@ -584,6 +637,7 @@
     renderPanel(state.data, wx);
     renderCast(film);
     recast();
+    if (REEL) renderReelChrome(film, wx);
     $('#epTitle').textContent = `Episode ${film.ep.toLocaleString('en-GB')} · “${film.title}”`;
     $('#epDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     $('#titlecard').classList.remove('show');
