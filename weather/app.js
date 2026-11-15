@@ -77,6 +77,7 @@
      ?place=Britain  override the place name used in the script            */
   const params = new URLSearchParams(location.search);
   const REEL = params.has('reel');
+  const DAILY = REEL && params.has('daily'); // morning forecast cut with today's real numbers
   const OPT = {
     cast: (params.get('cast') || '').split(',').map(x => x.trim()).filter(id => CAST[id]),
     setting: SETTINGS.find(x => x.id === params.get('setting')),
@@ -185,6 +186,9 @@
 
     return {
       code, cat, isDay, band, tod, windy, hour,
+      dCode: day.weather_code[0],
+      weekday: new Date(day.time[0] + 'T12:00').toLocaleDateString('en-GB', { weekday: 'long' }),
+      dateLabel: new Date(day.time[0] + 'T12:00').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }),
       baseCat: category(code),
       temp: t, feels: c.apparent_temperature,
       hi: day.temperature_2m_max[0], lo: day.temperature_2m_min[0],
@@ -220,7 +224,7 @@
     const seedFn = hashStr(`${todayKey()}|${state.take}|${place.name}`);
     const rng = mulberry32(seedFn());
 
-    const hostId = OPT.cast[0] || (ep % 2 ? 'drench' : 'arabella');
+    const hostId = OPT.cast[0] || ((ep + (DAILY && localFor(place.name) === LOCAL.stow ? 1 : 0)) % 2 ? 'drench' : 'arabella');
     const sideId = OPT.cast[1] || pick(rng, ['wilf', 'captain']);
     const guestPool = ['nimbus', 'edna', 'smethwick', 'captain', 'arabella', 'drench'].filter(g => g !== sideId && g !== hostId);
     const guestId = OPT.cast[2] || pick(rng, guestPool);
@@ -232,7 +236,7 @@
 
     const tokens = {
       city: place.name,
-      greeting: pick(rng, GREETINGS[wx.tod]),
+      greeting: pick(rng, GREETINGS[DAILY ? 'morning' : wx.tod]),
       H: host.short, Hfull: host.name,
       S: side.name, Sfirst: side.first,
       G: guest.short, Gfull: guest.name,
@@ -243,6 +247,7 @@
       sunset: wx.sunset, sunrise: wx.sunriseTomorrow,
       tCond: describe(wx.tCode)[1], tHi: fmtT(wx.tHi), tLo: fmtT(wx.tLo), tPop: wx.tPop,
       bestDay: wx.bestDay, worstDay: wx.worstDay,
+      todayCond: describe(wx.dCode)[1], weekday: wx.weekday, date: wx.dateLabel,
     };
     const fill = (s) => s.replace(/\{(\w+)\}/g, (m, k) => {
       if (k === 'Sexclaim') return pick(rng, side.exclaim);
@@ -260,6 +265,23 @@
     const gag = OPT.gag === 'none' ? null
       : GAGS.includes(OPT.gag) ? L.INTERRUPTIONS[GAGS.indexOf(OPT.gag)]
       : (rng() < 0.55 ? pick(rng, L.INTERRUPTIONS) : null);
+
+    if (DAILY) {
+      // The morning forecast: local opener, today's real numbers, a joke, a local bit, a guest, advice, out.
+      const loc = localFor(place.name);
+      add('H', loc ? pick(rng, loc.openers) : pick(rng, L.OPENINGS)[0][1]);
+      add('H', pick(rng, TODAY[state.tone === 'rude' ? 'rude' : 'clean']));
+      addBlock(pick(rng, L.CONDITIONS[wx.cat] || L.CONDITIONS.cloudy));
+      if (loc) addBlock(pick(rng, loc.bits.filter(b => b.length <= 3)));
+      else if (gag) addBlock(gag);
+      add('N', pick(rng, g.enter), 'enter');
+      add('G', g.lines[gCat] || g.lines[wx.baseCat] || g.lines.cloudy);
+      add('N', `[Exit ${guest.short.toUpperCase()}]`, 'exit');
+      add('H', pick(rng, L.ADVICE[adviceKeys(wx)[0]]));
+      const shortClosings = L.CLOSINGS.filter(b => b.length <= 3);
+      addBlock(pick(rng, shortClosings));
+      return { ep, title, setting, host, side, guest, lines, credit: pick(rng, CREDITS_JOKES), local: loc };
+    }
 
     if (REEL) {
       // The short cut: straight into the joke, one guest, one gag, out.
@@ -625,9 +647,11 @@
     const [label] = describe(wx.code);
     $('#reelHead').innerHTML = `
       <div class="rh-show">The Weather, <em>Unfortunately</em></div>
-      <div class="rh-ep">“${escapeXML(film.title)}”</div>
-      <div class="rh-wx">${icon(wx.code, wx.isDay, 64)}<span class="rh-temp">${fmtT(wx.temp)}</span><span class="rh-label">${label}<small>${escapeXML(state.place.name)}</small></span></div>`;
-    $('#reelFoot').innerHTML = `<b>A new episode every day</b>`;
+      <div class="rh-ep">${DAILY ? `${escapeXML(wx.dateLabel)} · ${escapeXML(state.place.name)}` : `“${escapeXML(film.title)}”`}</div>
+      ${DAILY
+        ? `<div class="rh-wx">${icon(wx.dCode, true, 64)}<span class="rh-temp">${fmtT(wx.hi)}</span><span class="rh-label">${describe(wx.dCode)[0]}<small>Low ${fmtT(wx.lo)} · Rain ${wx.pop}%</small></span></div>`
+        : `<div class="rh-wx">${icon(wx.code, wx.isDay, 64)}<span class="rh-temp">${fmtT(wx.temp)}</span><span class="rh-label">${label}<small>${escapeXML(state.place.name)}</small></span></div>`}`;
+    $('#reelFoot').innerHTML = `<b>${DAILY ? 'New forecast every morning' : 'A new episode every day'}</b>`;
   }
 
   /* ---------------- putting it all together ---------------- */
@@ -664,7 +688,7 @@
       renderReelChrome(film, wx);
       // Hooks for the video renderer: read the script, and let pre-recorded
       // voice tracks set how long each line stays on screen.
-      window.__film = { lines: film.lines.map(l => ({ who: l.who, text: l.text, char: charFor(l.who)?.id || null, say: l.who === 'N' ? '' : VoiceBox.speakable(l.text) })) };
+      window.__film = { setting: film.setting.id, place: state.place.name, date: wx.dateLabel, hi: fmtT(wx.hi), lo: fmtT(wx.lo), pop: wx.pop, cond: describe(wx.dCode)[0], tags: film.local ? film.local.tags : '', host: film.host.name, side: film.side.name, guest: film.guest.name, lines: film.lines.map(l => ({ who: l.who, text: l.text, char: charFor(l.who)?.id || null, say: l.who === 'N' ? '' : VoiceBox.speakable(l.text) })) };
     }
     $('#epTitle').textContent = `Episode ${film.ep.toLocaleString('en-GB')} · “${film.title}”`;
     $('#epDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
