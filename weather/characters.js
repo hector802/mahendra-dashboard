@@ -33,7 +33,7 @@ const CAST = {
     title: 'Dogsbody, Umbrella Holder',
     kind: 'servant',
     exclaim: ['Cor blimey', "Ooh, 'eck", 'Gordon Bennett', 'Crikey'],
-    words: { me: 'me', tookOff: "I've already took mine off!" },
+    words: { me: 'me', myself: 'meself', Mum: 'Me mum', tookOff: "I've already took mine off!" },
     skin: '#d99a74',
   },
   captain: {
@@ -44,7 +44,7 @@ const CAST = {
     title: 'Officer Commanding Outdoor Reports',
     kind: 'officer',
     exclaim: ['Tally-ho', 'I say', 'Rather', 'Good show'],
-    words: { me: 'my', tookOff: 'Shirt off already, sir! Regimental tradition!' },
+    words: { me: 'my', myself: 'myself', Mum: 'Mummy', tookOff: 'Shirt off already, sir! Regimental tradition!' },
     skin: '#f2b8a0',
   },
   nimbus: {

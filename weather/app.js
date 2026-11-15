@@ -273,7 +273,8 @@
       add('G', answer);
       add('N', `[Exit ${guest.short.toUpperCase()}]`, 'exit');
       add('H', pick(rng, L.ADVICE[adviceKeys(wx)[0]]));
-      addBlock(pick(rng, L.CLOSINGS.filter(b => b.length <= 3)));
+      const shortClosings = L.CLOSINGS.filter(b => b.length <= 3);
+      addBlock(shortClosings[state.take % shortClosings.length]); // rotate endings across takes
       return { ep, title, setting, host, side, guest, lines, credit: pick(rng, CREDITS_JOKES) };
     }
 
@@ -319,8 +320,9 @@
 
   function adviceKeys(wx) {
     const keys = [];
+    if (wx.baseCat === 'snow' && wx.lo <= 0) keys.push('ice');
     if (wx.pop >= 50 || ['rain', 'drizzle', 'thunder'].includes(wx.baseCat)) keys.push('umbrella');
-    if (wx.lo <= 0) keys.push('ice');
+    if (wx.lo <= 0 && !keys.includes('ice')) keys.push('ice');
     if (wx.gustMax >= 35) keys.push('wind');
     if (wx.baseCat === 'fog') keys.push('fog');
     if (wx.hi >= 27) keys.push('heat');
