@@ -28,6 +28,20 @@ const VoiceBox = (() => {
     smethwick: { gender: 'male',   pitch: 0.9,  rate: 0.9,  prefer: ['Ethan', 'Daniel', 'Arthur', 'George', 'Ryan'] },
   };
 
+  /* iPhone/iPad web views (e.g. inside apps) often ignore which voice a page
+     asks for, so every character gets the same system voice. There, pitch and
+     pace are the only levers, so we use a clearer — but not cartoonish — spread. */
+  const IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const IOS_TUNING = {
+    drench:    { pitch: 0.82, rate: 0.92 },
+    arabella:  { pitch: 1.14, rate: 0.98 },
+    wilf:      { pitch: 0.95, rate: 1.1 },
+    captain:   { pitch: 1.06, rate: 1.18 },
+    nimbus:    { pitch: 1.22, rate: 1.1 },
+    edna:      { pitch: 1.28, rate: 1.04 },
+    smethwick: { pitch: 0.74, rate: 0.84 },
+  };
+
   const SAMPLES = {
     drench: "I am Lord Drench, and I shall be your forecaster. Regrettably.",
     arabella: "Lady Arabella, darling. Do try to keep up.",
@@ -120,6 +134,7 @@ const VoiceBox = (() => {
   /* When two characters end up sharing a voice (tiny voice sets), separate
      them with a modest pitch difference rather than a cartoonish one. */
   function pitchFor(id, castMap) {
+    if (IOS) return IOS_TUNING[id].pitch;
     const p = PROFILES[id];
     const v = castMap[id];
     const sharers = Object.keys(castMap).filter(k => castMap[k] && v && castMap[k].voiceURI === v.voiceURI);
@@ -178,7 +193,7 @@ const VoiceBox = (() => {
         const u = new SpeechSynthesisUtterance(chunks[i++]);
         if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'en-GB';
         u.pitch = pitchFor(id, map);
-        u.rate = Math.min(1.6, Math.max(0.6, p.rate * speed));
+        u.rate = Math.min(1.6, Math.max(0.6, (IOS ? IOS_TUNING[id].rate : p.rate) * speed));
         u.volume = 1;
         let ended = false;
         const end = () => { if (ended) return; ended = true; onSpeaking && onSpeaking(false); clearTimeout(guard); setTimeout(nextChunk, 90); };
@@ -212,7 +227,7 @@ const VoiceBox = (() => {
   }
 
   return {
-    supported, PROFILES, SAMPLES,
+    supported, PROFILES, SAMPLES, IOS,
     get voices() { return voices.slice().sort((a, b) => quality(b) + (/en[-_]GB/i.test(b.lang) ? 60 : 0) - quality(a) - (/en[-_]GB/i.test(a.lang) ? 60 : 0)); },
     onChange: (fn) => listeners.push(fn),
     cast, say, cancel, speakable, hasGoodVoices, label, setOverride, overrides,

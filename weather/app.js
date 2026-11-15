@@ -665,6 +665,7 @@
         </div>`).join('')}
       <label class="vp-speed">Speed <input type="range" id="vpSpeed" min="0.8" max="1.3" step="0.05" value="${state.speed}"><output>${Math.round(state.speed * 100)}%</output></label>
       ${list.length === 0 ? '<p class="vp-tip">No English voices found on this device yet.</p>' : ''}
+      ${VoiceBox.IOS ? '<p class="vp-tip">On iPhone and iPad, apps often ignore which voice a page picks, so the cast are told apart by pitch and pace. For truly different voices, open this page in <b>Safari</b>.</p>' : ''}
       ${!VoiceBox.hasGoodVoices() ? `<p class="vp-tip">Your browser only has basic voices. For far better ones: on Windows, open this page in <b>Microsoft Edge</b> (its “Natural” British voices are excellent); on iPhone or Mac, download an <b>Enhanced</b> English (UK) voice in Settings › Accessibility › Spoken Content; in Chrome, the “Google UK English” voices are decent.</p>` : '<p class="vp-tip">★ = high-quality voice.</p>'}`;
 
     $('#vpOn').addEventListener('change', (e) => setVoiceOn(e.target.checked));
