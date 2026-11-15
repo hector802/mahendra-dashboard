@@ -475,7 +475,9 @@
     }
 
     const next = () => { if (tok !== player.token) return; clearTalking(); player.timer = setTimeout(() => tok === player.token && playLine(i + 1), line.who === 'N' ? 250 : 450); };
-    const readMs = line.who === 'N' ? (REEL ? 1900 : 2400) : Math.max(REEL ? 1700 : 2000, line.text.length * (REEL ? 52 : 58));
+    if (REEL && window.__lineStarts) window.__lineStarts[i] = Date.now();
+    const fixed = REEL && window.__lineDurations && window.__lineDurations[i];
+    const readMs = fixed || (line.who === 'N' ? (REEL ? 1900 : 2400) : Math.max(REEL ? 1700 : 2000, line.text.length * (REEL ? 52 : 58)));
 
     if (state.voice && c && VoiceBox.supported) {
       // Mouth moves only while words are actually coming out.
@@ -637,7 +639,12 @@
     renderPanel(state.data, wx);
     renderCast(film);
     recast();
-    if (REEL) renderReelChrome(film, wx);
+    if (REEL) {
+      renderReelChrome(film, wx);
+      // Hooks for the video renderer: read the script, and let pre-recorded
+      // voice tracks set how long each line stays on screen.
+      window.__film = { lines: film.lines.map(l => ({ who: l.who, text: l.text, char: charFor(l.who)?.id || null, say: l.who === 'N' ? '' : VoiceBox.speakable(l.text) })) };
+    }
     $('#epTitle').textContent = `Episode ${film.ep.toLocaleString('en-GB')} · “${film.title}”`;
     $('#epDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     $('#titlecard').classList.remove('show');
