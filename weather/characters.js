@@ -13,7 +13,6 @@ const CAST = {
     title: 'Chief Forecaster & Reluctant Aristocrat',
     honorific: { servant: "m'lord", officer: 'sir' },
     young: 'young man',
-    voice: { pitch: 0.75, rate: 0.95, gender: 'male' },
     skin: '#e8b896',
   },
   arabella: {
@@ -24,7 +23,6 @@ const CAST = {
     title: 'Society Meteorologist',
     honorific: { servant: "m'lady", officer: "ma'am" },
     young: 'young lady',
-    voice: { pitch: 1.15, rate: 1.0, gender: 'female' },
     skin: '#f1c6a8',
   },
   wilf: {
@@ -36,7 +34,6 @@ const CAST = {
     kind: 'servant',
     exclaim: ['Cor blimey', "Ooh, 'eck", 'Gordon Bennett', 'Crikey'],
     words: { me: 'me', tookOff: "I've already took mine off!" },
-    voice: { pitch: 0.9, rate: 1.05, gender: 'male' },
     skin: '#d99a74',
   },
   captain: {
@@ -48,7 +45,6 @@ const CAST = {
     kind: 'officer',
     exclaim: ['Tally-ho', 'I say', 'Rather', 'Good show'],
     words: { me: 'my', tookOff: 'Shirt off already, sir! Regimental tradition!' },
-    voice: { pitch: 1.0, rate: 1.15, gender: 'male' },
     skin: '#f2b8a0',
   },
   nimbus: {
@@ -57,7 +53,6 @@ const CAST = {
     short: 'Professor Nimbus',
     first: 'Professor',
     title: 'Department of Applied Guesswork, Univ. of Lower Bogworth',
-    voice: { pitch: 1.35, rate: 1.1, gender: 'male' },
     skin: '#f3d2bf',
   },
   edna: {
@@ -66,7 +61,6 @@ const CAST = {
     short: 'Mrs Pratt',
     first: 'Mrs Pratt',
     title: 'Concerned Viewer (Seventeen Letters This Week)',
-    voice: { pitch: 1.6, rate: 1.05, gender: 'female' },
     skin: '#c98e6a',
   },
   smethwick: {
@@ -75,7 +69,6 @@ const CAST = {
     short: 'Mr Smethwick',
     first: 'Mr Smethwick',
     title: 'Ministry of Weather, Dept. of Unforeseen Precipitation',
-    voice: { pitch: 0.6, rate: 0.82, gender: 'male' },
     skin: '#8d5a3b',
   },
 };

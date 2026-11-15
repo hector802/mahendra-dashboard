@@ -73,6 +73,7 @@
     place: store.get('twu.place', { name: 'London', admin: 'England', lat: 51.5074, lon: -0.1278 }),
     unit: store.get('twu.unit', 'C'),
     voice: store.get('twu.voice', false),
+    speed: store.get('twu.speed', 1),
     cc: store.get('twu.cc', true),
     take: 0,
     data: null,
@@ -317,27 +318,14 @@
     }
   }
 
-  /* ---------------- voices ---------------- */
-  let voices = [];
-  function loadVoices() {
-    if (!('speechSynthesis' in window)) return;
-    voices = speechSynthesis.getVoices();
+  /* ---------------- voices (see voices.js) ---------------- */
+  let castMap = {};
+  function recast() {
+    if (!player.film) return;
+    castMap = VoiceBox.cast([player.film.host.id, player.film.side.id, player.film.guest.id]);
+    renderVoicePanel();
   }
-  if ('speechSynthesis' in window) {
-    loadVoices();
-    speechSynthesis.onvoiceschanged = loadVoices;
-  }
-  function voiceFor(c) {
-    const gb = voices.filter(v => /en[-_]GB/i.test(v.lang));
-    const pool = gb.length ? gb : voices.filter(v => /^en/i.test(v.lang));
-    if (!pool.length) return null;
-    const fem = /female|serena|kate|martha|susan|libby|sonia|hazel|stephanie|fiona|moira|amy|emma|jenny/i;
-    const mal = /male|daniel|arthur|george|ryan|oliver|thomas|alfie|james|brian/i;
-    const want = c.voice.gender === 'female' ? fem : mal;
-    const matches = pool.filter(v => want.test(v.name) && !(c.voice.gender === 'male' && /female/i.test(v.name)));
-    const list = matches.length ? matches : pool;
-    return list[Object.keys(CAST).indexOf(c.id) % list.length];
-  }
+  VoiceBox.onChange(() => recast());
 
   /* ---------------- the projector ---------------- */
   const player = { film: null, idx: -1, playing: false, timer: null, token: 0 };
@@ -402,7 +390,7 @@
   function stopTimers() {
     player.token++;
     clearTimeout(player.timer);
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    VoiceBox.cancel();
   }
 
   function playLine(i) {
@@ -446,17 +434,13 @@
     const next = () => { if (tok !== player.token) return; clearTalking(); player.timer = setTimeout(() => tok === player.token && playLine(i + 1), line.who === 'N' ? 250 : 450); };
     const readMs = line.who === 'N' ? 2400 : Math.max(2000, line.text.length * 58);
 
-    if (state.voice && c && 'speechSynthesis' in window) {
-      const u = new SpeechSynthesisUtterance(line.text.replace(/°C/g, ' degrees').replace(/°F/g, ' degrees Fahrenheit').replace(/—/g, ', '));
-      const v = voiceFor(c);
-      if (v) u.voice = v;
-      u.lang = v?.lang || 'en-GB';
-      u.pitch = c.voice.pitch; u.rate = c.voice.rate;
-      let done = false;
-      const finish = () => { if (done) return; done = true; next(); };
-      u.onend = finish; u.onerror = finish;
-      speechSynthesis.speak(u);
-      player.timer = setTimeout(finish, readMs * 2.5 + 4000); // in case the browser forgets to tell us
+    if (state.voice && c && VoiceBox.supported) {
+      // Mouth moves only while words are actually coming out.
+      $(`#slot-${line.who}`)?.classList.remove('talking');
+      VoiceBox.say(c.id, line.text, {
+        castMap, speed: state.speed,
+        onSpeaking: (on) => { if (tok === player.token) $(`#slot-${line.who}`)?.classList.toggle('talking', on); },
+      }).then(() => { if (tok === player.token) next(); });
     } else {
       player.timer = setTimeout(next, readMs);
     }
@@ -599,6 +583,7 @@
     buildStage(film, wx);
     renderPanel(state.data, wx);
     renderCast(film);
+    recast();
     $('#epTitle').textContent = `Episode ${film.ep.toLocaleString('en-GB')} · “${film.title}”`;
     $('#epDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     $('#titlecard').classList.remove('show');
@@ -623,7 +608,7 @@
 
   function primeSpeech() {
     // iOS needs speech to be started from a tap; an empty utterance unlocks it.
-    if (state.voice && 'speechSynthesis' in window && !primeSpeech.done) {
+    if (state.voice && VoiceBox.supported && !primeSpeech.done) {
       speechSynthesis.speak(new SpeechSynthesisUtterance(''));
       primeSpeech.done = true;
     }
@@ -636,12 +621,67 @@
     stage.classList.toggle('no-cc', !state.cc);
     document.querySelectorAll('[data-unit]').forEach(b => b.setAttribute('aria-pressed', b.dataset.unit === state.unit));
   }
-  $('#voiceBtn').addEventListener('click', () => {
-    if (!('speechSynthesis' in window)) { alert('Sadly your browser has no voice box. Subtitles it is.'); return; }
-    state.voice = !state.voice; store.set('twu.voice', state.voice); syncToggles();
+  $('#voiceBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const panel = $('#voicePanel');
+    panel.hidden = !panel.hidden;
+    if (!panel.hidden) renderVoicePanel();
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#voicePanel') && !e.target.closest('#voiceBtn')) $('#voicePanel').hidden = true;
+  });
+
+  function setVoiceOn(on) {
+    state.voice = on; store.set('twu.voice', on); syncToggles();
     primeSpeech();
     if (player.playing) playLine(player.idx);
-  });
+  }
+
+  function renderVoicePanel() {
+    const panel = $('#voicePanel');
+    if (!panel || panel.hidden || !player.film) return;
+    if (!VoiceBox.supported) {
+      panel.innerHTML = '<p class="vp-tip">Sadly your browser has no voice box. Subtitles it is.</p>';
+      return;
+    }
+    const list = VoiceBox.voices;
+    const chars = [player.film.host, player.film.side, player.film.guest];
+    const o = VoiceBox.overrides();
+    panel.innerHTML = `
+      <div class="vp-head">
+        <b>Voice cast</b>
+        <label class="vp-switch"><input type="checkbox" id="vpOn" ${state.voice ? 'checked' : ''}><span>Voices ${state.voice ? 'on' : 'off'}</span></label>
+      </div>
+      ${chars.map(c => `
+        <div class="vp-row">
+          <span class="vp-name">${c.short}</span>
+          <select data-char="${c.id}" aria-label="Voice for ${c.name}">
+            <option value="">Automatic${castMap[c.id] ? ` (${escapeXML(VoiceBox.label(castMap[c.id]))})` : ''}</option>
+            ${list.map(v => `<option value="${escapeXML(v.voiceURI)}" ${o[c.id] === v.voiceURI ? 'selected' : ''}>${escapeXML(VoiceBox.label(v))}</option>`).join('')}
+          </select>
+          <button class="btn icon vp-try" data-try="${c.id}" title="Hear ${c.short}" aria-label="Hear ${c.short}">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg>
+          </button>
+        </div>`).join('')}
+      <label class="vp-speed">Speed <input type="range" id="vpSpeed" min="0.8" max="1.3" step="0.05" value="${state.speed}"><output>${Math.round(state.speed * 100)}%</output></label>
+      ${list.length === 0 ? '<p class="vp-tip">No English voices found on this device yet.</p>' : ''}
+      ${!VoiceBox.hasGoodVoices() ? `<p class="vp-tip">Your browser only has basic voices. For far better ones: on Windows, open this page in <b>Microsoft Edge</b> (its “Natural” British voices are excellent); on iPhone or Mac, download an <b>Enhanced</b> English (UK) voice in Settings › Accessibility › Spoken Content; in Chrome, the “Google UK English” voices are decent.</p>` : '<p class="vp-tip">★ = high-quality voice.</p>'}`;
+
+    $('#vpOn').addEventListener('change', (e) => setVoiceOn(e.target.checked));
+    panel.querySelectorAll('select[data-char]').forEach(sel => sel.addEventListener('change', () => {
+      VoiceBox.setOverride(sel.dataset.char, sel.value);
+      castMap = VoiceBox.cast(chars.map(c => c.id));
+      VoiceBox.say(sel.dataset.char, VoiceBox.SAMPLES[sel.dataset.char], { castMap, speed: state.speed });
+    }));
+    panel.querySelectorAll('[data-try]').forEach(b => b.addEventListener('click', () => {
+      if (player.playing) pause();
+      VoiceBox.cancel();
+      VoiceBox.say(b.dataset.try, VoiceBox.SAMPLES[b.dataset.try], { castMap, speed: state.speed });
+    }));
+    const sp = $('#vpSpeed');
+    sp.addEventListener('input', () => { state.speed = +sp.value; sp.nextElementSibling.textContent = `${Math.round(state.speed * 100)}%`; store.set('twu.speed', state.speed); });
+  }
+
   $('#ccBtn').addEventListener('click', () => { state.cc = !state.cc; store.set('twu.cc', state.cc); syncToggles(); });
   document.querySelectorAll('[data-unit]').forEach(b => b.addEventListener('click', () => {
     if (state.unit === b.dataset.unit) return;

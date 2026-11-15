@@ -78,9 +78,10 @@
         <svg viewBox="0 0 24 24" width="20" height="20"><path d="M18 5v14M5 5l10 7-10 7z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
       </button>
       <div class="progress" id="progress"><span></span></div>
-      <button id="voiceBtn" class="btn icon toggle" aria-label="Voices" aria-pressed="false">
+      <button id="voiceBtn" class="btn icon toggle" title="Voices" aria-label="Voices" aria-pressed="false">
         <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="waves" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
+      <div class="voice-panel" id="voicePanel" hidden></div>
       <button id="ccBtn" class="btn icon toggle" title="Subtitles" aria-label="Subtitles" aria-pressed="true">
         <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 10.5a2 2 0 1 0 0 3M17 10.5a2 2 0 1 0 0 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
@@ -128,6 +129,7 @@
 <script src="characters.js"></script>
 <script src="scripts.js"></script>
 <script src="stage.js"></script>
+<script src="voices.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
