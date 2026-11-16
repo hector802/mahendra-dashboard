@@ -14,6 +14,8 @@ Greg delegates and does not write the code himself.
 
 Only bring work to the user once it is ready. Don't hand over half-finished work or unreviewed changes.
 
+Greg's summaries to the user and all subagent report-backs follow the `brevity` skill (`.claude/skills/brevity/SKILL.md`).
+
 ## Project notes
 
 - Static GitHub Pages site: `index.html` (UI, Chart.js 4.4.1 from jsDelivr) and `data.js` (`window.__MAHENDRA__` snapshot).
