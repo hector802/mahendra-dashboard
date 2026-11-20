@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
-from .config import SLEEVES, RESULTS_DIR, PAPER_PATH, GATES
+from .config import SLEEVES, RESULTS_DIR, PAPER_PATH, GATES, GROUPS
 from .core import load_strategies, holdout_cutoff, periods_per_year, stats, vol_scale
 from .data import load_sleeve, refresh_all
 from .validation import validate
@@ -235,7 +235,7 @@ def run(refresh: bool = False) -> dict:
         sleeve_returns_ho[sleeve] = sl
         sleeve_returns_paper[sleeve] = sp if isinstance(sp, pd.Series) else pd.Series(dtype=float)
         out["sleeves"][sleeve] = {
-            "name": cfg["name"], "risk_share": cfg["risk_share"], "vol_target": cfg["vol_target"],
+            "name": cfg["name"], "group": cfg["group"], "risk_share": cfg["risk_share"], "vol_target": cfg["vol_target"],
             "max_dd": cfg["max_dd"], "cost_bps": cfg["cost_bps"], "universe": cfg["universe"],
             "holdout_start": str(cut.date()), "strategies": rows,
             "proforma_holdout": stats(sl, sleeve), "proforma_curve": weekly(sl),
@@ -249,12 +249,19 @@ def run(refresh: bool = False) -> dict:
         df = pd.DataFrame(frames)
         df = df[df.index.dayofweek < 5].fillna(0.0)
         return sum(df[s] * SLEEVES[s]["risk_share"] for s in df)
-    port_ho = combine(sleeve_returns_ho)
-    port_paper = combine(sleeve_returns_paper)
-    out["portfolio"] = {"proforma_holdout": stats(port_ho, "equity"), "proforma_curve": weekly(port_ho),
-                        "paper": stats(port_paper, "equity") if len(port_paper) >= 30 else None,
-                        "paper_return": float((1 + port_paper).prod() - 1) if len(port_paper) else 0.0,
-                        "paper_curve": daily_curve(port_paper) if len(port_paper) else []}
+    def portfolio(group):
+        ho = combine({k: v for k, v in sleeve_returns_ho.items() if SLEEVES[k]["group"] == group})
+        pp = combine({k: v for k, v in sleeve_returns_paper.items() if SLEEVES[k]["group"] == group})
+        sl = [r for s in out["sleeves"].values() if s["group"] == group for r in s["strategies"]]
+        st = [r["stage"] for r in sl]
+        return {"label": GROUPS[group], "proforma_holdout": stats(ho, "equity"), "proforma_curve": weekly(ho),
+                "paper": stats(pp, "equity") if len(pp) >= 30 else None,
+                "paper_return": float((1 + pp).prod() - 1) if len(pp) else 0.0,
+                "paper_curve": daily_curve(pp) if len(pp) else [],
+                "funnel": {k: st.count(k) for k in ["rejected", "paper", "incubation", "live", "derisked", "retired", "error"]},
+                "n_strategies": len(st)}
+    out["portfolios"] = {g: portfolio(g) for g in GROUPS}
+    out["portfolio"] = out["portfolios"]["agents"]
     stages = [r["stage"] for s in out["sleeves"].values() for r in s["strategies"]]
     out["funnel"] = {k: stages.count(k) for k in
                      ["rejected", "paper", "incubation", "live", "derisked", "retired", "error"]}

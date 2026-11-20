@@ -57,6 +57,7 @@ h3{font-size:14px;margin:0;font-weight:600}
 .tab{appearance:none;border:none;background:none;font:inherit;font-weight:500;color:var(--muted);padding:10px 14px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
 .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--gold)}
 .tab:focus-visible,.srow:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.tabgroup{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);align-self:center;padding:0 6px 0 10px}
 .tab .c{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:6px}
 .sleeve-head{display:flex;flex-wrap:wrap;gap:8px 28px}
 .sleeve-head div{display:flex;flex-direction:column}
@@ -120,6 +121,14 @@ footer{font-size:12px;color:var(--muted);border-top:1px solid var(--line);paddin
     </div>
   </section>
 
+  <section class="panel" id="compare-panel">
+    <div class="panel-head"><h2>Agents vs the book</h2><span class="label">same engine, same gates, same costs</span></div>
+    <div class="tablebox"><table id="compare-table" style="min-width:720px"><thead><tr>
+      <th>Group</th><th>Sleeves</th><th>Strategies</th><th>Passed</th><th>Holdout Sharpe</th><th>Holdout CAGR</th><th>Holdout max DD</th><th>Paper return</th>
+    </tr></thead><tbody></tbody></table></div>
+    <p class="note">Agent sleeves: strategies invented by research agents. Book sleeves: strategies and parameters taken as written from Kakushadze &amp; Serur, <i>151 Trading Strategies</i> (2018), pre-registered before testing. Each group's portfolio weights its own sleeves by risk share.</p>
+  </section>
+
   <section class="panel" id="sleeves-panel">
     <div class="panel-head"><h2>Sleeves</h2><span class="label">select a strategy for detail</span></div>
     <div class="tabs" role="tablist" id="tabs"></div>
@@ -162,15 +171,15 @@ document.getElementById("meta").textContent = `Data as of ${D.data_asof} · run 
 document.getElementById("gates").textContent = `in-sample Sharpe ≥ ${D.gates.backtest_min_sharpe}, deflated SR ≥ ${D.gates.dsr_min_prob}, PBO ≤ ${D.gates.pbo_max}, holdout Sharpe ≥ ${D.gates.holdout_min_sharpe}`;
 
 // KPIs
-const F = D.funnel, P = D.portfolio;
+const F = D.funnel, P = D.portfolio, PB = (D.portfolios||{}).book;
 const active = (F.paper||0)+(F.incubation||0)+(F.live||0)+(F.derisked||0);
 const kpis = [
   ["Strategies tested", F.total, `${D.total_trials} backtest trials logged`],
   ["Passed validation", active, `${F.rejected||0} rejected`],
-  ["Paper return", pct(P.paper_return,2), P.paper_curve.length ? `${P.paper_curve.length} trading days` : "tracking starts today"],
-  ["Holdout Sharpe", num(P.proforma_holdout.sharpe), "pro-forma portfolio, last 2 yrs"],
-  ["Holdout CAGR", pct(P.proforma_holdout.cagr), "pro-forma portfolio"],
-  ["Holdout max DD", pct(P.proforma_holdout.max_dd), "pro-forma portfolio"],
+  ["Paper return", pct(P.paper_return,2), (P.paper_curve.length ? `agents, ${P.paper_curve.length} days` : "agents, starts today") + (PB ? ` · book ${pct(PB.paper_return,2)}` : "")],
+  ["Holdout Sharpe", num(P.proforma_holdout.sharpe), `agents · book ${PB?num(PB.proforma_holdout.sharpe):"–"}`],
+  ["Holdout CAGR", pct(P.proforma_holdout.cagr), `agents · book ${PB?pct(PB.proforma_holdout.cagr):"–"}`],
+  ["Holdout max DD", pct(P.proforma_holdout.max_dd), `agents · book ${PB?pct(PB.proforma_holdout.max_dd):"–"}`],
 ];
 const K = document.getElementById("kpis");
 kpis.forEach(([l,v,s]) => { const d=el("div",{class:"kpi"}); d.append(el("span",{class:"label"},l), el("span",{class:"v"},String(v)), el("span",{class:"s"},s)); K.append(d); });
@@ -189,17 +198,33 @@ const lineOpts = (pctAxis=true) => ({responsive:true, maintainAspectRatio:false,
   elements:{point:{radius:0},line:{borderWidth:2,tension:0}}});
 
 const pc = P.proforma_curve;
-const portDatasets = [{label:"Pro-forma holdout (backtest)", data:pc.map(p=>p[1]), borderColor:css("--gold"), backgroundColor:"transparent"}];
+const portDatasets = [{label:"Agent sleeves", data:pc.map(p=>p[1]), borderColor:css("--gold"), backgroundColor:"transparent"}];
+if(PB && PB.proforma_curve.length){ const m = Object.fromEntries(PB.proforma_curve); portDatasets.push({label:"Book sleeves", data:pc.map(p=>m[p[0]]??null), borderColor:css("--info"), backgroundColor:"transparent", spanGaps:true}); }
 new Chart(document.getElementById("port-chart"), {type:"line", data:{labels:pc.map(p=>p[0]), datasets:portDatasets}, options:lineOpts()});
 document.getElementById("port-label").textContent = "pro-forma holdout";
 document.getElementById("port-note").textContent = P.paper_curve.length
   ? `Forward paper trading: ${pct(P.paper_return,2)} over ${P.paper_curve.length} days.`
   : "Today's allocation applied to the last two years, which the research agents never saw. Forward paper results appear here as days accrue.";
 
+// Comparison
+const CT = document.querySelector("#compare-table tbody");
+Object.entries(D.portfolios||{agents:P}).forEach(([g,pf])=>{
+  const sl = sleeves.filter(([k,s])=>(s.group||"agents")===g);
+  const passed = sl.reduce((a,[k,s])=>a+s.strategies.filter(r=>!["rejected","error"].includes(r.stage)).length,0);
+  const tot = sl.reduce((a,[k,s])=>a+s.strategies.length,0);
+  const tr = el("tr"); const n = el("td"); n.append(el("b",{},pf.label||g)); tr.append(n);
+  [[String(sl.length),""],[String(tot),""],[String(passed),""],[num(pf.proforma_holdout.sharpe),cls(pf.proforma_holdout.sharpe)],
+   [pct(pf.proforma_holdout.cagr),cls(pf.proforma_holdout.cagr)],[pct(pf.proforma_holdout.max_dd),"neg"],
+   [pf.paper_curve.length?pct(pf.paper_return,2):"–",pf.paper_curve.length?cls(pf.paper_return):"dim"]].forEach(([v,c])=>tr.append(el("td",{class:c},v)));
+  CT.append(tr);
+});
+
 // Sleeves
 let sleeveChart, allocChart, current = sleeves[0][0];
 const tabs = document.getElementById("tabs");
+let lastGroup = null;
 sleeves.forEach(([k,s]) => { const live = s.strategies.filter(r=>r.allocation>0).length;
+  const g = s.group||"agents"; if(g!==lastGroup){ tabs.append(el("span",{class:"tabgroup"}, g==="book"?"Book":"Agents")); lastGroup=g; }
   const b = el("button",{class:"tab",role:"tab",id:"tab-"+k,"aria-selected":String(k===current)}, s.name);
   b.append(el("span",{class:"c"},`${live}/${s.strategies.length}`)); b.onclick=()=>{current=k; renderSleeve();}; tabs.append(b); });
 
