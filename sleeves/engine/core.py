@@ -83,7 +83,7 @@ def load_strategies() -> dict[str, Strategy]:
 # --------------------------------------------------------------------------
 
 def periods_per_year(sleeve: str) -> int:
-    return 365 if sleeve == "crypto" else 252
+    return 365 if SLEEVES[sleeve].get("calendar") == "7d" else 252
 
 
 def vol_scale(w: pd.DataFrame, rets: pd.DataFrame, vol_target: float, ppy: int,

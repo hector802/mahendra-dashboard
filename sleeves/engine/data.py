@@ -36,6 +36,30 @@ def _fetch_yahoo(ticker: str, start: str = START_DATE) -> pd.Series:
     raise RuntimeError("unreachable")
 
 
+def get_hilo(ticker: str, refresh: bool = False, max_age_hours: float = 12) -> pd.DataFrame:
+    """Unadjusted daily high/low/close (for intraday-range signals such as IBS).
+
+    Strategies must reindex the result to the price index they were given, so
+    the in-sample sandbox never sees rows after its cutoff.
+    """
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    path = DATA_DIR / ("HLC_" + _cache_path(ticker).name)
+    if path.exists() and not refresh and (time.time() - path.stat().st_mtime) / 3600 < max_age_hours:
+        return pd.read_csv(path, index_col=0, parse_dates=True)
+    p1 = int(pd.Timestamp(START_DATE, tz="UTC").timestamp())
+    p2 = int(datetime.now(timezone.utc).timestamp())
+    r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}",
+                     params={"period1": p1, "period2": p2, "interval": "1d"}, headers=_UA, timeout=30)
+    r.raise_for_status()
+    res = r.json()["chart"]["result"][0]
+    q = res["indicators"]["quote"][0]
+    df = pd.DataFrame({"high": q["high"], "low": q["low"], "close": q["close"]},
+                      index=pd.to_datetime(res["timestamp"], unit="s").normalize(), dtype=float)
+    df = df[~df.index.duplicated(keep="last")].dropna()
+    df.to_csv(path)
+    return df
+
+
 def _cache_path(ticker: str):
     safe = ticker.replace("^", "IDX_").replace("=", "_").replace("/", "_")
     return DATA_DIR / f"{safe}.csv"
@@ -85,7 +109,7 @@ def load_prices(tickers: list[str], refresh: bool = False) -> pd.DataFrame:
 
 def load_sleeve(sleeve: str, refresh: bool = False) -> pd.DataFrame:
     df = load_prices(SLEEVES[sleeve]["universe"], refresh=refresh)
-    if sleeve != "crypto":
+    if SLEEVES[sleeve].get("calendar") != "7d":
         # Use the US equity calendar for traditional-asset sleeves.
         anchor = "SPY" if "SPY" in df else df.columns[0]
         df = df[df[anchor].notna()] if anchor in df else df

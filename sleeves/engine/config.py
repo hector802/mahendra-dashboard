@@ -53,5 +53,47 @@ SLEEVES = {
     },
 }
 
+# --------------------------------------------------------------------------
+# Book sleeves: strategies and parameters taken ONLY from Kakushadze & Serur,
+# "151 Trading Strategies" (2018). Pre-registered in catalogue/book_protocol.md.
+# They form a separate group with their own portfolio, for comparison with the
+# agent-designed sleeves above (which are left unchanged).
+# --------------------------------------------------------------------------
+BOOK_SLEEVES = {
+    "b_etf": {
+        "name": "151 · ETF rotation", "group": "book",
+        "risk_share": 0.20, "vol_target": 0.10, "max_dd": 0.12, "cost_bps": 5,
+        "universe": ["SPY", "EFA", "EEM", "IWM", "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY",
+                     "TLT", "IEF", "LQD", "HYG", "GLD", "DBC", "VNQ"],
+    },
+    "b_tech": {
+        "name": "151 · Technical rules", "group": "book",
+        "risk_share": 0.20, "vol_target": 0.10, "max_dd": 0.12, "cost_bps": 5,
+        "universe": ["SPY", "QQQ", "IWM", "DIA", "EFA", "EEM", "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY"],
+    },
+    "b_macro": {
+        "name": "151 · FX & rates", "group": "book",
+        "risk_share": 0.20, "vol_target": 0.10, "max_dd": 0.10, "cost_bps": 4,
+        "universe": ["FXE", "FXY", "FXB", "FXA", "FXC", "FXF", "UUP", "BIL", "SHY", "IEF", "TLT",
+                     "EURUSD=X", "JPY=X", "GBPUSD=X", "AUDUSD=X", "CAD=X", "CHF=X"],
+    },
+    "b_vol": {
+        "name": "151 · Volatility", "group": "book",
+        "risk_share": 0.20, "vol_target": 0.10, "max_dd": 0.08, "cost_bps": 8,
+        "universe": ["SPY", "BIL", "SHY", "^VIX", "^VIX3M", "VIXY", "VIXM", "SVXY"],
+    },
+    "b_crypto": {
+        "name": "151 · Crypto", "group": "book", "calendar": "7d",
+        "risk_share": 0.20, "vol_target": 0.20, "max_dd": 0.20, "cost_bps": 15,
+        "universe": ["BTC-USD", "ETH-USD", "LTC-USD", "XRP-USD"],
+    },
+}
+for _k, _v in SLEEVES.items():
+    _v.setdefault("group", "agents")
+SLEEVES["crypto"].setdefault("calendar", "7d")
+SLEEVES.update(BOOK_SLEEVES)
+
+GROUPS = {"agents": "Agent-designed sleeves", "book": "151 Trading Strategies sleeves"}
+
 # Index-only tickers: usable as signals, never as positions.
 NON_TRADABLE = {"^VIX", "^VIX3M"}
