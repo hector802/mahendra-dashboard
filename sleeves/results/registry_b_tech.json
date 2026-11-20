@@ -96,6 +96,91 @@
    },
    "sharpe": 0.1306,
    "n": 4209
+  },
+  {
+   "ts": "2026-11-20T19:39:45+00:00",
+   "strategy": "channel",
+   "phase": "holdout",
+   "params": {
+    "T": 20
+   },
+   "sharpe": -0.2864,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:46+00:00",
+   "strategy": "low_vol_anomaly_etf",
+   "phase": "holdout",
+   "params": {
+    "window": 252
+   },
+   "sharpe": 0.0044,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:47+00:00",
+   "strategy": "price_momentum_etf",
+   "phase": "holdout",
+   "params": {
+    "T": 12,
+    "S": 1
+   },
+   "sharpe": -0.6151,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:52+00:00",
+   "strategy": "residual_momentum_etf",
+   "phase": "holdout",
+   "params": {
+    "reg_months": 36,
+    "T": 12,
+    "S": 1,
+    "n_side": 3
+   },
+   "sharpe": -0.4372,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:52+00:00",
+   "strategy": "single_moving_average",
+   "phase": "holdout",
+   "params": {
+    "T": 200
+   },
+   "sharpe": 0.048,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:53+00:00",
+   "strategy": "support_resistance",
+   "phase": "holdout",
+   "params": {},
+   "sharpe": -2.5296,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:53+00:00",
+   "strategy": "three_moving_averages",
+   "phase": "holdout",
+   "params": {
+    "T1": 3,
+    "T2": 10,
+    "T3": 21
+   },
+   "sharpe": -0.1566,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:54+00:00",
+   "strategy": "two_moving_averages",
+   "phase": "holdout",
+   "params": {
+    "T_short": 10,
+    "T_long": 30
+   },
+   "sharpe": 0.0584,
+   "n": 502
   }
  ],
  "postmortems": []

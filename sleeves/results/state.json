@@ -249,11 +249,15 @@
  },
  "crypto.invvol_trend_basket": {
   "hash": "8c4a00ec193a",
-  "stage": "paper",
+  "stage": "rejected",
   "history": [
    {
     "date": "2026-11-12",
     "stage": "paper"
+   },
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
    }
   ],
   "paper_start": "2026-11-12"
@@ -278,5 +282,270 @@
    }
   ],
   "paper_start": "2026-11-12"
+ },
+ "b_etf.dual_momentum_sector": {
+  "hash": "b753de9aeb90",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-20"
+ },
+ "b_etf.etf_ibs_reversion": {
+  "hash": "166a24bc6d42",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_etf.multi_asset_trend": {
+  "hash": "57b618ec5513",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-20"
+ },
+ "b_etf.sector_momentum_ma_filter": {
+  "hash": "ee090eabf493",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-20"
+ },
+ "b_etf.sector_momentum_rotation": {
+  "hash": "be84b8d71f30",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-20"
+ },
+ "b_tech.channel": {
+  "hash": "c6a0782764f1",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_tech.low_vol_anomaly_etf": {
+  "hash": "2fd0fc97859e",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_tech.price_momentum_etf": {
+  "hash": "13e8e6a7f8b8",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_tech.residual_momentum_etf": {
+  "hash": "dc663e69430b",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_tech.single_moving_average": {
+  "hash": "6b4818189506",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_tech.support_resistance": {
+  "hash": "b717661de8fe",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_tech.three_moving_averages": {
+  "hash": "fc516f3fa58e",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_tech.two_moving_averages": {
+  "hash": "d8f25cc92e96",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_macro.barbell_vs_bullet": {
+  "hash": "6593225c85be",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_macro.curve_steepener_flattener": {
+  "hash": "a50c503d8035",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_macro.dollar_carry": {
+  "hash": "02381e5c2799",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_macro.fx_hml_carry": {
+  "hash": "593e86236695",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_macro.fx_ma_hp_filter": {
+  "hash": "d25fa51c2ce8",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_macro.fx_momentum_carry_combo": {
+  "hash": "7950f55eaf00",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_vol.index_vol_targeting": {
+  "hash": "81f6b8068c35",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_vol.vix_basis_proxy": {
+  "hash": "899ea78d46a3",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_vol.vol_carry_two_etns": {
+  "hash": "07eb615db468",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_vol.vol_risk_premium": {
+  "hash": "c41235af8475",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_crypto.btc_single_ma": {
+  "hash": "332eed9dfb0e",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_crypto.crypto_ann": {
+  "hash": "ee9e2333f932",
+  "stage": "rejected",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "rejected"
+   }
+  ]
+ },
+ "b_crypto.crypto_two_ma": {
+  "hash": "c9b278fcf445",
+  "stage": "paper",
+  "history": [
+   {
+    "date": "2026-11-20",
+    "stage": "paper"
+   }
+  ],
+  "paper_start": "2026-11-20"
  }
 }

@@ -160,5 +160,161 @@
   "first_look": "2026-11-12",
   "sharpe": 0.14709881678835532,
   "looks": 1
+ },
+ "b_etf.dual_momentum_sector": {
+  "hash": "b753de9aeb90",
+  "first_look": "2026-11-20",
+  "sharpe": 0.20068554859389054,
+  "looks": 1
+ },
+ "b_etf.etf_ibs_reversion": {
+  "hash": "166a24bc6d42",
+  "first_look": "2026-11-20",
+  "sharpe": -2.3289010014582203,
+  "looks": 1
+ },
+ "b_etf.multi_asset_trend": {
+  "hash": "57b618ec5513",
+  "first_look": "2026-11-20",
+  "sharpe": 0.8441722316474065,
+  "looks": 1
+ },
+ "b_etf.sector_momentum_ma_filter": {
+  "hash": "ee090eabf493",
+  "first_look": "2026-11-20",
+  "sharpe": 0.49924949401951124,
+  "looks": 1
+ },
+ "b_etf.sector_momentum_rotation": {
+  "hash": "be84b8d71f30",
+  "first_look": "2026-11-20",
+  "sharpe": 0.682311258520406,
+  "looks": 1
+ },
+ "b_tech.channel": {
+  "hash": "c6a0782764f1",
+  "first_look": "2026-11-20",
+  "sharpe": -0.286360101114984,
+  "looks": 1
+ },
+ "b_tech.low_vol_anomaly_etf": {
+  "hash": "2fd0fc97859e",
+  "first_look": "2026-11-20",
+  "sharpe": 0.004423780856635575,
+  "looks": 1
+ },
+ "b_tech.price_momentum_etf": {
+  "hash": "13e8e6a7f8b8",
+  "first_look": "2026-11-20",
+  "sharpe": -0.6150724433557585,
+  "looks": 1
+ },
+ "b_tech.residual_momentum_etf": {
+  "hash": "dc663e69430b",
+  "first_look": "2026-11-20",
+  "sharpe": -0.4371954457435854,
+  "looks": 1
+ },
+ "b_tech.single_moving_average": {
+  "hash": "6b4818189506",
+  "first_look": "2026-11-20",
+  "sharpe": 0.04799230112024726,
+  "looks": 1
+ },
+ "b_tech.support_resistance": {
+  "hash": "b717661de8fe",
+  "first_look": "2026-11-20",
+  "sharpe": -2.5296207788465255,
+  "looks": 1
+ },
+ "b_tech.three_moving_averages": {
+  "hash": "fc516f3fa58e",
+  "first_look": "2026-11-20",
+  "sharpe": -0.15659519921276158,
+  "looks": 1
+ },
+ "b_tech.two_moving_averages": {
+  "hash": "d8f25cc92e96",
+  "first_look": "2026-11-20",
+  "sharpe": 0.05837055120381559,
+  "looks": 1
+ },
+ "b_macro.barbell_vs_bullet": {
+  "hash": "6593225c85be",
+  "first_look": "2026-11-20",
+  "sharpe": -0.9686444947380352,
+  "looks": 1
+ },
+ "b_macro.curve_steepener_flattener": {
+  "hash": "a50c503d8035",
+  "first_look": "2026-11-20",
+  "sharpe": -1.5475805347405696,
+  "looks": 1
+ },
+ "b_macro.dollar_carry": {
+  "hash": "02381e5c2799",
+  "first_look": "2026-11-20",
+  "sharpe": 0.5565845727018,
+  "looks": 1
+ },
+ "b_macro.fx_hml_carry": {
+  "hash": "593e86236695",
+  "first_look": "2026-11-20",
+  "sharpe": 0.4243134525367776,
+  "looks": 1
+ },
+ "b_macro.fx_ma_hp_filter": {
+  "hash": "d25fa51c2ce8",
+  "first_look": "2026-11-20",
+  "sharpe": -0.9846434100835764,
+  "looks": 1
+ },
+ "b_macro.fx_momentum_carry_combo": {
+  "hash": "7950f55eaf00",
+  "first_look": "2026-11-20",
+  "sharpe": -0.24408266404467263,
+  "looks": 1
+ },
+ "b_vol.index_vol_targeting": {
+  "hash": "81f6b8068c35",
+  "first_look": "2026-11-20",
+  "sharpe": 0.24469972133049783,
+  "looks": 1
+ },
+ "b_vol.vix_basis_proxy": {
+  "hash": "899ea78d46a3",
+  "first_look": "2026-11-20",
+  "sharpe": -0.24490695975198043,
+  "looks": 1
+ },
+ "b_vol.vol_carry_two_etns": {
+  "hash": "07eb615db468",
+  "first_look": "2026-11-20",
+  "sharpe": 0.5019860693413914,
+  "looks": 1
+ },
+ "b_vol.vol_risk_premium": {
+  "hash": "c41235af8475",
+  "first_look": "2026-11-20",
+  "sharpe": -0.14510214942534708,
+  "looks": 1
+ },
+ "b_crypto.btc_single_ma": {
+  "hash": "332eed9dfb0e",
+  "first_look": "2026-11-20",
+  "sharpe": -0.09106344509538715,
+  "looks": 1
+ },
+ "b_crypto.crypto_ann": {
+  "hash": "ee9e2333f932",
+  "first_look": "2026-11-20",
+  "sharpe": -0.8918653459719499,
+  "looks": 1
+ },
+ "b_crypto.crypto_two_ma": {
+  "hash": "c9b278fcf445",
+  "first_look": "2026-11-20",
+  "sharpe": 0.03114983145309321,
+  "looks": 1
  }
 }

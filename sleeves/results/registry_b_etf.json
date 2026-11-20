@@ -120,6 +120,59 @@
    },
    "sharpe": 0.7343,
    "n": 4752
+  },
+  {
+   "ts": "2026-11-20T19:39:42+00:00",
+   "strategy": "dual_momentum_sector",
+   "phase": "holdout",
+   "params": {
+    "T": 12,
+    "T_ma": 200
+   },
+   "sharpe": 0.2007,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:43+00:00",
+   "strategy": "etf_ibs_reversion",
+   "phase": "holdout",
+   "params": {},
+   "sharpe": -2.3289,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:43+00:00",
+   "strategy": "multi_asset_trend",
+   "phase": "holdout",
+   "params": {
+    "T": 12,
+    "T_ma": 200,
+    "cap": 0.3
+   },
+   "sharpe": 0.8442,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:44+00:00",
+   "strategy": "sector_momentum_ma_filter",
+   "phase": "holdout",
+   "params": {
+    "T": 12,
+    "T_ma": 200
+   },
+   "sharpe": 0.4992,
+   "n": 502
+  },
+  {
+   "ts": "2026-11-20T19:39:44+00:00",
+   "strategy": "sector_momentum_rotation",
+   "phase": "holdout",
+   "params": {
+    "T": 12,
+    "hold": 1
+   },
+   "sharpe": 0.6823,
+   "n": 502
   }
  ],
  "postmortems": []

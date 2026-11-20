@@ -79,6 +79,49 @@
    "params": {},
    "sharpe": 0.3812,
    "n": 3303
+  },
+  {
+   "ts": "2026-11-20T19:40:01+00:00",
+   "strategy": "index_vol_targeting",
+   "phase": "holdout",
+   "params": {
+    "sigma_target": 0.15,
+    "kappa": 0.1,
+    "window": 21,
+    "max_lev": 1.5
+   },
+   "sharpe": 0.2447,
+   "n": 504
+  },
+  {
+   "ts": "2026-11-20T19:40:01+00:00",
+   "strategy": "vix_basis_proxy",
+   "phase": "holdout",
+   "params": {
+    "open_th": 0.1,
+    "close_th": 0.05,
+    "T": 42
+   },
+   "sharpe": -0.2449,
+   "n": 504
+  },
+  {
+   "ts": "2026-11-20T19:40:01+00:00",
+   "strategy": "vol_carry_two_etns",
+   "phase": "holdout",
+   "params": {
+    "window": 126
+   },
+   "sharpe": 0.502,
+   "n": 504
+  },
+  {
+   "ts": "2026-11-20T19:40:02+00:00",
+   "strategy": "vol_risk_premium",
+   "phase": "holdout",
+   "params": {},
+   "sharpe": -0.1451,
+   "n": 504
   }
  ],
  "postmortems": []
