@@ -1,0 +1,126 @@
+{
+ "sleeve": "b_etf",
+ "trials": [
+  {
+   "ts": "2026-11-20T19:35:55+00:00",
+   "strategy": "sector_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "T": 6,
+    "hold": 1
+   },
+   "sharpe": 0.5697,
+   "n": 4859
+  },
+  {
+   "ts": "2026-11-20T19:35:55+00:00",
+   "strategy": "sector_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "T": 6,
+    "hold": 3
+   },
+   "sharpe": 0.6316,
+   "n": 4815
+  },
+  {
+   "ts": "2026-11-20T19:35:55+00:00",
+   "strategy": "sector_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "T": 12,
+    "hold": 1
+   },
+   "sharpe": 0.5831,
+   "n": 4752
+  },
+  {
+   "ts": "2026-11-20T19:35:55+00:00",
+   "strategy": "sector_momentum_rotation",
+   "phase": "research",
+   "params": {
+    "T": 12,
+    "hold": 3
+   },
+   "sharpe": 0.6322,
+   "n": 4752
+  },
+  {
+   "ts": "2026-11-20T19:35:55+00:00",
+   "strategy": "sector_momentum_ma_filter",
+   "phase": "research",
+   "params": {
+    "T": 12,
+    "T_ma": 100
+   },
+   "sharpe": 0.4768,
+   "n": 4752
+  },
+  {
+   "ts": "2026-11-20T19:35:55+00:00",
+   "strategy": "sector_momentum_ma_filter",
+   "phase": "research",
+   "params": {
+    "T": 12,
+    "T_ma": 200
+   },
+   "sharpe": 0.5565,
+   "n": 4752
+  },
+  {
+   "ts": "2026-11-20T19:35:56+00:00",
+   "strategy": "dual_momentum_sector",
+   "phase": "research",
+   "params": {
+    "T": 12,
+    "T_ma": 100
+   },
+   "sharpe": 0.6477,
+   "n": 4794
+  },
+  {
+   "ts": "2026-11-20T19:35:56+00:00",
+   "strategy": "dual_momentum_sector",
+   "phase": "research",
+   "params": {
+    "T": 12,
+    "T_ma": 200
+   },
+   "sharpe": 0.5241,
+   "n": 4752
+  },
+  {
+   "ts": "2026-11-20T19:35:56+00:00",
+   "strategy": "etf_ibs_reversion",
+   "phase": "research",
+   "params": {},
+   "sharpe": -1.324,
+   "n": 5004
+  },
+  {
+   "ts": "2026-11-20T19:35:57+00:00",
+   "strategy": "multi_asset_trend",
+   "phase": "research",
+   "params": {
+    "T": 6,
+    "T_ma": 200,
+    "cap": 0.3
+   },
+   "sharpe": 0.7013,
+   "n": 4752
+  },
+  {
+   "ts": "2026-11-20T19:35:57+00:00",
+   "strategy": "multi_asset_trend",
+   "phase": "research",
+   "params": {
+    "T": 12,
+    "T_ma": 200,
+    "cap": 0.3
+   },
+   "sharpe": 0.7343,
+   "n": 4752
+  }
+ ],
+ "postmortems": []
+}
