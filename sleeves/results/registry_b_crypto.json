@@ -1,0 +1,35 @@
+{
+ "sleeve": "b_crypto",
+ "trials": [
+  {
+   "ts": "2026-11-20T19:35:46+00:00",
+   "strategy": "btc_single_ma",
+   "phase": "research",
+   "params": {
+    "T": 200
+   },
+   "sharpe": 1.5847,
+   "n": 3431
+  },
+  {
+   "ts": "2026-11-20T19:35:46+00:00",
+   "strategy": "crypto_two_ma",
+   "phase": "research",
+   "params": {
+    "T_short": 10,
+    "T_long": 30
+   },
+   "sharpe": 1.5267,
+   "n": 3685
+  },
+  {
+   "ts": "2026-11-20T19:35:56+00:00",
+   "strategy": "crypto_ann",
+   "phase": "research",
+   "params": {},
+   "sharpe": 0.0475,
+   "n": 2875
+  }
+ ],
+ "postmortems": []
+}
