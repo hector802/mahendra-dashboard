@@ -1,0 +1,80 @@
+{
+ "sleeve": "b_macro",
+ "trials": [
+  {
+   "ts": "2026-11-20T19:36:51+00:00",
+   "strategy": "fx_ma_hp_filter",
+   "phase": "research",
+   "params": {
+    "months": "(3, 12)"
+   },
+   "sharpe": 0.1997,
+   "n": 4370
+  },
+  {
+   "ts": "2026-11-20T19:36:51+00:00",
+   "strategy": "fx_ma_hp_filter",
+   "phase": "research",
+   "params": {
+    "months": "(1, 6)"
+   },
+   "sharpe": 0.0979,
+   "n": 4525
+  },
+  {
+   "ts": "2026-11-20T19:36:52+00:00",
+   "strategy": "fx_hml_carry",
+   "phase": "research",
+   "params": {},
+   "sharpe": -0.4311,
+   "n": 4949
+  },
+  {
+   "ts": "2026-11-20T19:36:52+00:00",
+   "strategy": "dollar_carry",
+   "phase": "research",
+   "params": {},
+   "sharpe": 0.3789,
+   "n": 4949
+  },
+  {
+   "ts": "2026-11-20T19:36:53+00:00",
+   "strategy": "fx_momentum_carry_combo",
+   "phase": "research",
+   "params": {},
+   "sharpe": -0.0942,
+   "n": 4105
+  },
+  {
+   "ts": "2026-11-20T19:36:54+00:00",
+   "strategy": "curve_steepener_flattener",
+   "phase": "research",
+   "params": {
+    "lookback": 63
+   },
+   "sharpe": -1.0519,
+   "n": 5438
+  },
+  {
+   "ts": "2026-11-20T19:36:54+00:00",
+   "strategy": "curve_steepener_flattener",
+   "phase": "research",
+   "params": {
+    "lookback": 126
+   },
+   "sharpe": -0.7454,
+   "n": 5375
+  },
+  {
+   "ts": "2026-11-20T19:36:54+00:00",
+   "strategy": "barbell_vs_bullet",
+   "phase": "research",
+   "params": {
+    "lookback": 126
+   },
+   "sharpe": -1.2847,
+   "n": 5375
+  }
+ ],
+ "postmortems": []
+}
