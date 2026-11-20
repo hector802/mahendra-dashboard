@@ -1,0 +1,102 @@
+{
+ "sleeve": "b_tech",
+ "trials": [
+  {
+   "ts": "2026-11-20T19:36:03+00:00",
+   "strategy": "single_moving_average",
+   "phase": "research",
+   "params": {
+    "T": 200
+   },
+   "sharpe": 0.2424,
+   "n": 4804
+  },
+  {
+   "ts": "2026-11-20T19:36:03+00:00",
+   "strategy": "two_moving_averages",
+   "phase": "research",
+   "params": {
+    "T_short": 10,
+    "T_long": 30
+   },
+   "sharpe": -0.2084,
+   "n": 4974
+  },
+  {
+   "ts": "2026-11-20T19:36:03+00:00",
+   "strategy": "three_moving_averages",
+   "phase": "research",
+   "params": {
+    "T1": 3,
+    "T2": 10,
+    "T3": 21
+   },
+   "sharpe": -0.4908,
+   "n": 4983
+  },
+  {
+   "ts": "2026-11-20T19:36:03+00:00",
+   "strategy": "support_resistance",
+   "phase": "research",
+   "params": {},
+   "sharpe": -1.9224,
+   "n": 5002
+  },
+  {
+   "ts": "2026-11-20T19:36:04+00:00",
+   "strategy": "channel",
+   "phase": "research",
+   "params": {
+    "T": 20
+   },
+   "sharpe": -0.3458,
+   "n": 4984
+  },
+  {
+   "ts": "2026-11-20T19:36:04+00:00",
+   "strategy": "price_momentum_etf",
+   "phase": "research",
+   "params": {
+    "T": 6,
+    "S": 1
+   },
+   "sharpe": 0.0985,
+   "n": 4836
+  },
+  {
+   "ts": "2026-11-20T19:36:04+00:00",
+   "strategy": "price_momentum_etf",
+   "phase": "research",
+   "params": {
+    "T": 12,
+    "S": 1
+   },
+   "sharpe": 0.0005,
+   "n": 4713
+  },
+  {
+   "ts": "2026-11-20T19:36:05+00:00",
+   "strategy": "low_vol_anomaly_etf",
+   "phase": "research",
+   "params": {
+    "window": 252
+   },
+   "sharpe": -0.0819,
+   "n": 4752
+  },
+  {
+   "ts": "2026-11-20T19:36:06+00:00",
+   "strategy": "residual_momentum_etf",
+   "phase": "research",
+   "params": {
+    "reg_months": 36,
+    "T": 12,
+    "S": 1,
+    "n_side": 3
+   },
+   "sharpe": 0.1306,
+   "n": 4209
+  }
+ ],
+ "postmortems": []
+}
