@@ -1,0 +1,85 @@
+{
+ "sleeve": "b_vol",
+ "trials": [
+  {
+   "ts": "2026-11-20T19:35:14+00:00",
+   "strategy": "index_vol_targeting",
+   "phase": "research",
+   "params": {
+    "sigma_target": 0.15,
+    "kappa": 0.05,
+    "window": 21,
+    "max_lev": 1.5
+   },
+   "sharpe": 0.6999,
+   "n": 4983
+  },
+  {
+   "ts": "2026-11-20T19:35:14+00:00",
+   "strategy": "index_vol_targeting",
+   "phase": "research",
+   "params": {
+    "sigma_target": 0.15,
+    "kappa": 0.1,
+    "window": 21,
+    "max_lev": 1.5
+   },
+   "sharpe": 0.7043,
+   "n": 4983
+  },
+  {
+   "ts": "2026-11-20T19:35:14+00:00",
+   "strategy": "index_vol_targeting",
+   "phase": "research",
+   "params": {
+    "sigma_target": 0.15,
+    "kappa": 0.2,
+    "window": 21,
+    "max_lev": 1.5
+   },
+   "sharpe": 0.7091,
+   "n": 4983
+  },
+  {
+   "ts": "2026-11-20T19:35:14+00:00",
+   "strategy": "vix_basis_proxy",
+   "phase": "research",
+   "params": {
+    "open_th": 0.1,
+    "close_th": 0.05,
+    "T": 42
+   },
+   "sharpe": 0.3674,
+   "n": 3343
+  },
+  {
+   "ts": "2026-11-20T19:35:14+00:00",
+   "strategy": "vol_carry_two_etns",
+   "phase": "research",
+   "params": {
+    "window": 63
+   },
+   "sharpe": 0.3038,
+   "n": 3411
+  },
+  {
+   "ts": "2026-11-20T19:35:14+00:00",
+   "strategy": "vol_carry_two_etns",
+   "phase": "research",
+   "params": {
+    "window": 126
+   },
+   "sharpe": 0.3393,
+   "n": 3348
+  },
+  {
+   "ts": "2026-11-20T19:35:14+00:00",
+   "strategy": "vol_risk_premium",
+   "phase": "research",
+   "params": {},
+   "sharpe": 0.3812,
+   "n": 3303
+  }
+ ],
+ "postmortems": []
+}
